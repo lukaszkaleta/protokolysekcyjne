@@ -69,6 +69,7 @@ public abstract class SearchCriteriaController {
             return modelAndView;
         } else {
             userSearch.setOwner(principal.getName());
+            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" + userSearch.getPatientFirstName());
             userSearch = userSearchService.accept(userSearch);
             ModelAndView modelAndView = new ModelAndView(RESULT_VIEW, "userSearch", userSearch);
             List<DissectionProtocol> search = dissectionProtocolService.search(userSearch);
