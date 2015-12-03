@@ -32,7 +32,7 @@
     -->
     <Resource name="jdbc/dissection-protocol-DS"
               url="jdbc:mysql://${OPENSHIFT_MYSQL_DB_HOST}:${OPENSHIFT_MYSQL_DB_PORT}/${OPENSHIFT_APP_NAME}?characterEncoding=UTF-8"
-              driverClassName="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource"
+              driverClassName="com.mysql.jdbc.Driver"
               username="${OPENSHIFT_MYSQL_DB_USERNAME}"
               password="${OPENSHIFT_MYSQL_DB_PASSWORD}"
               auth="Container"
