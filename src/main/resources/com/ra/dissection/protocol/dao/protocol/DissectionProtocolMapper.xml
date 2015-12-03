@@ -1,0 +1,197 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ra.dissection.protocol.dao.protocol.DissectionProtocolMapper">
+
+  <resultMap id="basicDataResultMap" type="com.ra.dissection.protocol.domain.protocol.DissectionProtocol">
+    <result column="id" property="id"/>
+    <result column="status" property="status"/>
+    <result column="creation_date" property="creationDate"/>
+    <result column="category" property="category" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+    <result column="protocol_number" property="number"/>
+    <result column="hospital_id" property="hospitalId"/>
+    <result column="autopsy_doctor_executor_id" property="basicData.autopsy.doctorExecutorId"/>
+    <result column="autopsy_doctor_executor_presence" property="basicData.autopsy.doctorExecutorPresence"/>
+    <result column="autopsy_date" property="basicData.autopsy.date"/>
+    <result column="autopsy_time" property="basicData.autopsy.time.value"/>
+    <result column="death_story_hospital_id" property="basicData.deathStory.hospitalId"/>
+    <result column="death_story_book_type" property="basicData.deathStory.bookType"/>
+    <result column="death_story_book_number" property="basicData.deathStory.bookNumber"/>
+    <result column="patient_last_name" property="basicData.patient.lastName"/>
+    <result column="patient_first_name" property="basicData.patient.firstName"/>
+    <result column="patient_identification_number" property="basicData.patient.identificationNumber"/>
+    <result column="patient_years_age" property="basicData.patient.yearsAge"/>
+    <result column="patient_description" property="basicData.patient.description"/>
+    <result column="patient_address_value" property="basicData.patient.address.value"/>
+    <result column="patient_address_post_code" property="basicData.patient.address.postCode"/>
+    <result column="patient_address_city" property="basicData.patient.address.city"/>
+  </resultMap>
+
+  <sql id="selectBasicDataSql">
+    select id, status, category, protocol_number, hospital_id, autopsy_doctor_executor_id, autopsy_doctor_executor_presence, autopsy_date, autopsy_time, death_story_hospital_id, death_story_book_type, death_story_book_number, patient_last_name, patient_first_name, patient_identification_number, patient_years_age, patient_description, patient_address_value, patient_address_post_code, patient_address_city from dp_dissection_protocol
+  </sql>
+
+  <resultMap id="clinicalDiagnosisResultMap" type="com.ra.dissection.protocol.domain.protocol.DissectionProtocol">
+    <result column="id" property="id"/>
+    <result column="creation_date" property="creationDate"/>
+    <result column="clinical_diagnosis" property="clinicalDiagnosis"/>
+  </resultMap>
+
+  <resultMap id="clinicalDataResultMap" type="com.ra.dissection.protocol.domain.protocol.DissectionProtocol">
+    <result column="id" property="id"/>
+    <result column="clinical_data" property="clinicalData"/>
+  </resultMap>
+
+  <resultMap id="medicalPracticeAnalysisResultMap" type="com.ra.dissection.protocol.domain.protocol.DissectionProtocol">
+    <result column="id" property="id"/>
+    <result column="medial_practice_analysis" property="medicalPracticeAnalysis"/>
+  </resultMap>
+
+  <resultMap id="dissectionProtocolProgressResultMap" type="com.ra.dissection.protocol.domain.protocol.DissectionProtocolProgress">
+    <result column="basic_data_done" property="basicDataDone"/>
+    <result column="clinical_diagnosis_done" property="clinicalDiagnosisDone"/>
+    <result column="dissection_diagnosis_done" property="dissectionDiagnosisDone"/>
+    <result column="description_done" property="descriptionDone"/>
+    <result column="histopathological_examination_done" property="histopathologicalExaminationDone"/>
+    <result column="clinical_data_done" property="clinicalDataDone"/>
+    <result column="medical_practice_analysis_done" property="medicalPracticeAnalysisDone"/>
+  </resultMap>
+
+  <resultMap id="statusResultMap" type="com.ra.dissection.protocol.domain.protocol.DissectionProtocol">
+    <result column="id" property="id"/>
+    <result column="status" property="status"/>
+  </resultMap>
+
+  <insert id="insert" useGeneratedKeys="true" parameterType="com.ra.dissection.protocol.domain.protocol.DissectionProtocol" keyProperty="id" keyColumn="id">
+    insert into dp_dissection_protocol (status, creation_date, category, protocol_number, hospital_id, autopsy_doctor_executor_id, autopsy_doctor_executor_presence, autopsy_date, autopsy_time, death_story_hospital_id, death_story_book_type, death_story_book_number, patient_last_name, patient_first_name, patient_identification_number, patient_years_age, patient_description, patient_address_value, patient_address_post_code, patient_address_city) values ('WORK_IN_PROGRESS', #{creationDate}, #{category}, #{number}, #{hospitalId}, #{basicData.autopsy.doctorExecutorId}, #{basicData.autopsy.doctorExecutorPresence}, #{basicData.autopsy.date}, #{basicData.autopsy.time.value}, #{basicData.deathStory.hospitalId}, #{basicData.deathStory.bookType}, #{basicData.deathStory.bookNumber}, #{basicData.patient.lastName}, #{basicData.patient.firstName}, #{basicData.patient.identificationNumber}, #{basicData.patient.yearsAge}, #{basicData.patient.description}, #{basicData.patient.address.value}, #{basicData.patient.address.postCode}, #{basicData.patient.address.city})
+  </insert>
+
+  <insert id="insertClone" useGeneratedKeys="true" parameterType="long">
+    insert into dp_dissection_protocol (status, creation_date, category, protocol_number, hospital_id, autopsy_doctor_executor_id, autopsy_doctor_executor_presence, death_story_hospital_id, death_story_book_type, clinical_diagnosis, clinical_data, medial_practice_analysis) select 'WORK_IN_PROGRESS', CURDATE(), category, '', hospital_id, autopsy_doctor_executor_id, autopsy_doctor_executor_presence, death_story_hospital_id, death_story_book_type, clinical_diagnosis, clinical_data, medial_practice_analysis from dp_dissection_protocol where id = #{id}
+  </insert>
+
+  <delete id="deleteDissectionProtocol" parameterType="long">
+    delete from dp_dissection_protocol where id = #{id}
+  </delete>
+
+  <!-- Updates -->
+
+  <update id="updateBasicData" parameterType="com.ra.dissection.protocol.domain.protocol.DissectionProtocol">
+    update dp_dissection_protocol set category = #{category}, protocol_number = #{number}, hospital_id = #{hospitalId}, autopsy_doctor_executor_id = #{basicData.autopsy.doctorExecutorId}, autopsy_doctor_executor_presence = #{basicData.autopsy.doctorExecutorPresence}, autopsy_date = #{basicData.autopsy.date}, autopsy_time = #{basicData.autopsy.time.value}, death_story_hospital_id = #{basicData.deathStory.hospitalId}, death_story_book_type = #{basicData.deathStory.bookType}, death_story_book_number = #{basicData.deathStory.bookNumber}, patient_last_name = #{basicData.patient.lastName}, patient_first_name = #{basicData.patient.firstName}, patient_identification_number = #{basicData.patient.identificationNumber}, patient_years_age = #{basicData.patient.yearsAge}, patient_description = #{basicData.patient.description}, patient_address_value = #{basicData.patient.address.value}, patient_address_post_code = #{basicData.patient.address.postCode}, patient_address_city = #{basicData.patient.address.city} where id = #{id}
+  </update>
+
+  <update id="updateClinicalDiagnosis" parameterType="com.ra.dissection.protocol.domain.protocol.DissectionProtocol">
+    update dp_dissection_protocol set clinical_diagnosis = #{clinicalDiagnosis} where id = #{id}
+  </update>
+
+  <update id="updateClinicalData" parameterType="com.ra.dissection.protocol.domain.protocol.DissectionProtocol">
+    update dp_dissection_protocol set clinical_data = #{clinicalData} where id = #{id}
+  </update>
+
+  <update id="updateMedicalPracticeAnalysis" parameterType="com.ra.dissection.protocol.domain.protocol.DissectionProtocol">
+    update dp_dissection_protocol set medial_practice_analysis = #{medicalPracticeAnalysis} where id = #{id}
+  </update>
+
+  <update id="updateStatus" parameterType="com.ra.dissection.protocol.domain.protocol.DissectionProtocol">
+    update dp_dissection_protocol set status = #{status} where id = #{id}
+  </update>
+
+  <!-- Loading dissection protocol data -->
+
+  <select id="selectId" parameterType="long" resultType="java.lang.Long" >
+    select id from dp_dissection_protocol where id = #{dissectionProtocolId}
+  </select>
+
+  <select id="selectStatus" parameterType="long" resultType="com.ra.dissection.protocol.domain.protocol.DissectionProtocol" resultMap="statusResultMap">
+    select id, status from dp_dissection_protocol where id = #{id}
+  </select>
+
+  <select id="selectBasicData" parameterType="long" resultType="com.ra.dissection.protocol.domain.protocol.DissectionProtocol" resultMap="basicDataResultMap">
+     <include refid="selectBasicDataSql"/> where id = #{id}
+  </select>
+
+  <select id="selectClinicalDiagnosis" parameterType="long" resultType="com.ra.dissection.protocol.domain.protocol.DissectionProtocol" resultMap="clinicalDiagnosisResultMap">
+    select id, category, clinical_diagnosis from dp_dissection_protocol where id = #{id}
+  </select>
+
+  <select id="selectClinicalData" parameterType="long" resultType="com.ra.dissection.protocol.domain.protocol.DissectionProtocol" resultMap="clinicalDataResultMap">
+    select id, clinical_data from dp_dissection_protocol where id = #{id}
+  </select>
+
+  <select id="selectMedicalPracticeAnalysis" parameterType="long" resultType="com.ra.dissection.protocol.domain.protocol.DissectionProtocol" resultMap="medicalPracticeAnalysisResultMap">
+    select id, medial_practice_analysis from dp_dissection_protocol where id = #{id}
+  </select>
+
+  <!-- Progress -->
+  <select id="selectProgress" parameterType="long" resultType="com.ra.dissection.protocol.domain.protocol.DissectionProtocolProgress" resultMap="dissectionProtocolProgressResultMap">
+    select
+    (protocol_number is not null and hospital_id is not null and autopsy_doctor_executor_id is not null and autopsy_date is not null and death_story_hospital_id is not null and ((patient_last_name is not null and patient_first_name is not null) or patient_description is not null) and patient_identification_number) as basic_data_done,
+    clinical_diagnosis is not null as clinical_diagnosis_done,
+    (select count(*) from dp_dissection_diagnose where dissection_protocol_id = #{id}) > 0 as dissection_diagnosis_done,
+    (select count(*) from dp_description_point where dissection_protocol_id = #{id}) > 0 as description_done,
+    (select count(*) from dp_histopathological_examination where dissection_protocol_id = #{id}) > 0 as histopathological_examination_done,
+    clinical_data is not null as clinical_data_done,
+    medial_practice_analysis is not null as medical_practice_analysis_done
+    from dp_dissection_protocol where id = #{id}
+  </select>
+
+  <!-- Search -->
+
+  <select id="selectLatest" parameterType="com.ra.dissection.protocol.domain.common.Range"  resultType="com.ra.dissection.protocol.domain.protocol.DissectionProtocol" resultMap="basicDataResultMap">
+    select id, status, category, protocol_number, hospital_id, autopsy_doctor_executor_id, autopsy_doctor_executor_presence, autopsy_date, autopsy_time, death_story_hospital_id, death_story_book_type, death_story_book_number, patient_last_name, patient_first_name, patient_identification_number, patient_years_age, patient_description, patient_address_value, patient_address_post_code, patient_address_city from dp_dissection_protocol order by autopsy_date desc, autopsy_time desc LIMIT #{from,javaType=int,jdbcType=NUMERIC,typeHandler=org.apache.ibatis.type.IntegerTypeHandler}, #{to,javaType=int,jdbcType=NUMERIC,typeHandler=org.apache.ibatis.type.IntegerTypeHandler}
+  </select>
+
+  <select id="selectSearch" parameterType="com.ra.dissection.protocol.domain.search.UserSearch" resultType="com.ra.dissection.protocol.domain.protocol.DissectionProtocol" resultMap="basicDataResultMap">
+    select id, status, category, protocol_number, hospital_id, autopsy_doctor_executor_id, autopsy_doctor_executor_presence, autopsy_date, autopsy_time, death_story_hospital_id, death_story_book_type, death_story_book_number, patient_last_name, patient_first_name, patient_identification_number, patient_years_age, patient_description, patient_address_value, patient_address_post_code, patient_address_city from dp_dissection_protocol
+    <where>
+      <if test="doctorId != null">
+        autopsy_doctor_executor_id = #{doctorId}
+      </if>
+      <if test="hospitalId != null">
+        AND death_story_hospital_id = #{hospitalId}
+      </if>
+      <if test="medicalExaminationDate != null">
+        AND autopsy_date = #{medicalExaminationDate}
+      </if>
+      <if test="medicalExaminationDateRange.from != null">
+        AND autopsy_date &gt;= #{medicalExaminationDateRange.from,javaType=java.util.Date,jdbcType=DATE,typeHandler=org.apache.ibatis.type.DateTypeHandler}
+      </if>
+      <if test="medicalExaminationDateRange.to != null">
+        AND autopsy_date &lt;= #{medicalExaminationDateRange.to,javaType=java.util.Date,jdbcType=DATE,typeHandler=org.apache.ibatis.type.DateTypeHandler}
+      </if>
+      <if test="medicalExaminationTimeRange.from.value != null">
+        AND autopsy_time &gt;= #{medicalExaminationTimeRange.from.value,javaType=int,jdbcType=NUMERIC,typeHandler=org.apache.ibatis.type.IntegerTypeHandler}
+      </if>
+      <if test="medicalExaminationTimeRange.to.value != null">
+        AND autopsy_time &lt;= #{medicalExaminationTimeRange.to.value,javaType=int,jdbcType=NUMERIC,typeHandler=org.apache.ibatis.type.IntegerTypeHandler}
+      </if>
+      <if test="patientLastName != null and !''.equals(patientLastName)">
+        AND patient_last_name like concat('%', #{patientLastName}, '%')
+      </if>
+      <if test="patientFirstName != null and !''.equals(patientFirstName)">
+        AND patient_first_name like concat('%', #{patientFirstName}, '%')
+      </if>
+      <if test="patientIdentificationNumber != null and !''.equals(patientIdentificationNumber)">
+        AND patient_identification_number like concat('%', #{patientIdentificationNumber}, '%')
+      </if>
+      <if test="medicalExaminationNumber != null and !''.equals(medicalExaminationNumber)">
+        AND protocol_number like concat('%', #{medicalExaminationNumber}, '%')
+      </if>
+    </where>
+     order by autopsy_date desc, autopsy_time desc
+  </select>
+
+  <select id="selectNewest" resultType="long">
+    select max(id) from dp_dissection_protocol
+  </select>
+
+  <select id="selectDissectionProtocolsBasicData" parameterType="java.util.List" resultMap="basicDataResultMap">
+      <include refid="selectBasicDataSql"/> where id in
+      <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+          #{item}
+      </foreach>
+      order by autopsy_date desc, autopsy_time desc
+  </select>
+
+</mapper>

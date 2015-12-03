@@ -1,0 +1,37 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ra.dissection.protocol.dao.security.UserAuthorityMapper">
+
+  <resultMap id="userAuthorityResultMap" type="com.ra.dissection.protocol.domain.security.UserAuthority">
+    <result column="username" property="username"/>
+    <result column="authority" property="authority"/>
+  </resultMap>
+
+  <sql id="selectUserAuthoritySql">
+    select username,authority from security_user_authorities
+  </sql>
+
+  <insert id="insertUserAuthority" useGeneratedKeys="true" parameterType="com.ra.dissection.protocol.domain.security.UserAuthority" keyProperty="id" keyColumn="id">
+    insert into security_user_authorities (username, authority) values (#{username}, #{authority})
+  </insert>
+
+  <update id="updateUserAuthority" parameterType="com.ra.dissection.protocol.domain.security.UserAuthority">
+    update security_user_authorities set authority = #{authority} where username = #{username}
+  </update>
+
+  <delete id="deleteUserAuthority" parameterType="java.lang.String">
+    delete from security_user_authorities where username = #{username}
+  </delete>
+
+  <select id="selectAuthorityByUsername" parameterType="java.lang.String" resultType="com.ra.dissection.protocol.domain.security.UserAuthority" resultMap="userAuthorityResultMap">
+    <include refid="selectUserAuthoritySql"/> where username = #{username}
+  </select>
+
+  <select id="selectAllUserAuthority" resultType="com.ra.dissection.protocol.domain.security.UserAuthority" resultMap="userAuthorityResultMap">
+    <include refid="selectUserAuthoritySql"/>
+  </select>
+
+  <select id="countAdmins" resultType="int">
+    select count(*) from security_user_authorities where authority = 'ADMIN'
+  </select>
+</mapper>

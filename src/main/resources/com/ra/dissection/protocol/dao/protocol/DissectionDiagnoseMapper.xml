@@ -1,0 +1,75 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ra.dissection.protocol.dao.protocol.DissectionDiagnoseMapper">
+
+  <resultMap id="DissectionDiagnoseResultMap" type="com.ra.dissection.protocol.domain.protocol.DissectionDiagnose">
+    <result column="id" property="id"/>
+    <result column="dissection_protocol_id" property="dissectionProtocolId"/>
+    <result column="description_point_id" property="descriptionPointId"/>
+    <result column="dissection_diagnose_source_id" property="dissectionDiagnoseSourceId"/>
+    <result column="latin" property="name.latin"/>
+    <result column="translated" property="name.translated"/>
+    <result column="sort_index" property="sortIndex"/>
+  </resultMap>
+
+  <sql id="selectDissectionDiagnoseSql">
+    select id, dissection_protocol_id, description_point_id, dissection_diagnose_source_id, latin, translated, sort_index from dp_dissection_diagnose
+  </sql>
+
+  <insert id="insertDissectionDiagnose" useGeneratedKeys="true" parameterType="com.ra.dissection.protocol.domain.protocol.DissectionDiagnose" keyProperty="id" keyColumn="id">
+    insert into dp_dissection_diagnose (dissection_protocol_id, description_point_id, dissection_diagnose_source_id, latin, translated, sort_index) values (#{dissectionProtocolId}, #{descriptionPointId}, #{dissectionDiagnoseSourceId}, #{name.latin}, #{name.translated}, #{sortIndex})
+  </insert>
+
+  <insert id="insertClone">
+    insert into dp_dissection_diagnose (dissection_protocol_id, dissection_diagnose_source_id, latin, translated, sort_index) select #{targetDissectionProtocolId}, dissection_diagnose_source_id, latin, translated, sort_index from dp_dissection_diagnose where dissection_protocol_id = #{sourceDissectionProtocolId}
+  </insert>
+
+  <update id="updateDissectionDiagnose" parameterType="com.ra.dissection.protocol.domain.protocol.DissectionDiagnose">
+    update dp_dissection_diagnose set latin = #{name.latin}, translated = #{name.translated} where id = #{id}
+  </update>
+
+  <update id="updateDissectionDiagnoseSortIndex" parameterType="java.util.Map">
+    update dp_dissection_diagnose set sort_index = #{sortIndex} where id = #{id}
+  </update>
+
+  <update id="updateDeletedDescriptionPoint" parameterType="long">
+    update dp_dissection_diagnose set description_point_id = null where description_point_id = #{id}
+  </update>
+
+  <delete id="deleteDissectionDiagnose" parameterType="long">
+    delete from dp_dissection_diagnose where id = #{id}
+  </delete>
+
+  <delete id="deleteDissectionProtocolDissectionDiagnose" parameterType="long">
+    delete from dp_dissection_diagnose where dissection_protocol_id = #{id}
+  </delete>
+
+  <select id="selectDissectionDiagnose" parameterType="long" resultType="com.ra.dissection.protocol.domain.protocol.DissectionDiagnose" resultMap="DissectionDiagnoseResultMap">
+    <include refid="selectDissectionDiagnoseSql"/> where id = #{id}
+  </select>
+
+  <select id="selectDissectionDiagnoses" resultType="com.ra.dissection.protocol.domain.protocol.DissectionDiagnose" resultMap="DissectionDiagnoseResultMap">
+    <include refid="selectDissectionDiagnoseSql"/>
+  </select>
+
+  <select id="selectDissectionDiagnoseForDissectionProtocol" resultType="com.ra.dissection.protocol.domain.protocol.DissectionDiagnose" resultMap="DissectionDiagnoseResultMap" parameterType="long">
+    <include refid="selectDissectionDiagnoseSql"/> where dissection_protocol_id = #{dissectionProtocolId} order by sort_index, id
+  </select>
+
+  <select id="selectDissectionDiagnoseFromDescriptionPoint" resultType="com.ra.dissection.protocol.domain.protocol.DissectionDiagnose" resultMap="DissectionDiagnoseResultMap">
+    <include refid="selectDissectionDiagnoseSql"/> where dissection_protocol_id = #{dissectionProtocolId} and description_point_id = #{descriptionPointId} order by latin
+  </select>
+
+  <select id="selectMaxSortIndexForNewDissectionDiagnose" resultType="java.lang.Integer" parameterType="long">
+    select max(sort_index) from dp_dissection_diagnose where dissection_protocol_id = #{id}
+  </select>
+
+  <select id="selectDissectionDiagnosesForSource" resultType="com.ra.dissection.protocol.domain.protocol.DissectionDiagnose" resultMap="DissectionDiagnoseResultMap" parameterType="long">
+    <include refid="selectDissectionDiagnoseSql"/> where dissection_diagnose_source_id = #{id}
+  </select>
+
+  <select id="selectDissectionProtocolIdsForSource" resultType="java.lang.Long" parameterType="long">
+     select dissection_protocol_id from dp_dissection_diagnose  where dissection_diagnose_source_id = #{id}
+  </select>
+
+</mapper>

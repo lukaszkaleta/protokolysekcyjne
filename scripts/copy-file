@@ -1,0 +1,5 @@
+Log in:
+ssh 5655f97f89f5cff20a000038@protokolysekcyjne-ehistopatologia.rhcloud.com
+
+Copy file:
+scp dumps/20151105.sql 5655f97f89f5cff20a000038@protokolysekcyjne-ehistopatologia.rhcloud.com:/var/lib/openshift/5655f97f89f5cff20a000038/app-root/data/DUMPS

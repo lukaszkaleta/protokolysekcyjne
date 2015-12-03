@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  - Sample namespace-based configuration
+  -
+  -->
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+  <http use-expressions="true">
+    <intercept-url pattern="/protocol/**" access="isAuthenticated()" />
+    <intercept-url pattern="/search/**" access="isAuthenticated()" />
+    <intercept-url pattern="/settings/**" access="isAuthenticated()" />
+    <form-login login-page="/security/login"
+                default-target-url="/"
+                authentication-failure-url="/security/login-fails" />
+    <logout logout-success-url="/security/logout" delete-cookies="JSESSIONID" />
+    <session-management invalid-session-url="/security/invalid-session">
+      <concurrency-control max-sessions="1000" error-if-maximum-exceeded="false" expired-url="/security/expired"  />
+    </session-management>
+  </http>
+
+  <authentication-manager>
+    <authentication-provider user-service-ref="accountService"/>
+  </authentication-manager>
+
+</beans:beans>

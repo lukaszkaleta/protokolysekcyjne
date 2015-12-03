@@ -1,0 +1,53 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ra.dissection.protocol.dao.settings.HospitalMapper">
+
+  <resultMap id="hospitalResultMap" type="com.ra.dissection.protocol.domain.settings.Hospital">
+    <result column="id" property="id"/>
+    <result column="name" property="name"/>
+    <result column="address" property="address.value"/>
+    <result column="post_code" property="address.postCode"/>
+    <result column="city" property="address.city"/>
+    <result column="phone" property="phone"/>
+  </resultMap>
+
+  <resultMap id="hospitalImageResultMap" type="com.ra.dissection.protocol.domain.common.ImageData">
+    <result column="image_data" property="data"/>
+  </resultMap>
+
+  <sql id="selectHospitalSql">
+    select id, name, address, post_code, city, phone from settings_hospital
+  </sql>
+
+  <insert id="insertHospital" useGeneratedKeys="true" parameterType="com.ra.dissection.protocol.domain.settings.Hospital" keyProperty="id" keyColumn="id">
+    insert into settings_hospital (name, address, post_code, city, phone) values (#{name}, #{address.value}, #{address.postCode}, #{address.city}, #{phone})
+  </insert>
+
+  <update id="updateHospital" parameterType="com.ra.dissection.protocol.domain.settings.Hospital">
+    update settings_hospital set name = #{name}, address = #{address.value}, post_code = #{address.postCode}, city = #{address.city}, phone = #{phone} where id = #{id}
+  </update>
+
+  <update id="updateHospitalImage" parameterType="java.util.Map">
+    update settings_hospital set image_data = #{imageData} where id = #{id}
+  </update>
+
+  <delete id="deleteHospital" parameterType="long">
+    delete from settings_hospital where id = #{id}
+  </delete>
+
+  <select id="selectHospital" parameterType="long" resultType="com.ra.dissection.protocol.domain.settings.Hospital" resultMap="hospitalResultMap">
+    <include refid="selectHospitalSql"/> where id = #{id}
+  </select>
+
+  <select id="selectHospitals" resultType="com.ra.dissection.protocol.domain.settings.Hospital" resultMap="hospitalResultMap">
+    <include refid="selectHospitalSql"/>
+  </select>
+
+  <select id="filterHospitals" parameterType="java.lang.String" resultType="com.ra.dissection.protocol.domain.settings.Hospital" resultMap="hospitalResultMap">
+    <include refid="selectHospitalSql"/> where name like '%{name}'
+  </select>
+
+  <select id="selectHospitalImage" parameterType="long" resultMap="hospitalImageResultMap">
+    select image_data from settings_hospital where id = #{id}
+  </select>
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+  <!-- Maps '/' requests to the 'home' view -->
+  <mvc:view-controller path="/" view-name="home"/>
+  <mvc:view-controller path="/security/login" view-name="security/login-page"/>
+  <mvc:view-controller path="/security/login-fails" view-name="security/login-failed-page"/>
+  <mvc:view-controller path="/security/logout" view-name="security/logout-page"/>
+  <mvc:view-controller path="/security/timeout" view-name="security/timeout"/>
+  <mvc:view-controller path="/security/invalid-session" view-name="security/invalid-session"/>
+  <mvc:view-controller path="/security/expired" view-name="security/expired"/>
+
+  <mvc:interceptors>
+    <mvc:interceptor>
+      <mvc:mapping path="/**"/>
+      <bean id="activeMenuInterceptor" class="com.ra.dissection.protocol.mvc.navigation.ActiveMenuInterceptor"/>
+    </mvc:interceptor>
+  </mvc:interceptors>
+
+  <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+    <property name="exceptionMappings">
+      <props>
+        <prop key="com.ra.dissection.protocol.service.exception.ProtocolNotExistsException">error/protocol-not-exists</prop>
+        <prop key="org.springframework.dao.DataIntegrityViolationException">error/data-integrity-volation</prop>
+      </props>
+    </property>
+  </bean>
+
+  <context:component-scan base-package="com.ra.dissection.protocol.mvc.controller,com.ra.dissection.protocol.mvc.validation" />
+
+  <bean name="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    <property name="basenames">
+      <array>
+        <value>/WEB-INF/messages</value>
+      </array>
+    </property>
+    <property name="useCodeAsDefaultMessage" value="true"/>
+    <property name="fileEncodings" value="UTF-8"/>
+    <property name="defaultEncoding" value="UTF-8"/>
+    <property name="cacheSeconds" value="1"/>
+  </bean>
+
+  <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <property name="maxUploadSize">
+      <value>10000000</value>
+    </property>
+  </bean>
+
+</beans>

@@ -1,0 +1,62 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ra.dissection.protocol.dao.UserSearchMapper">
+
+  <resultMap id="userSearchResultMap" type="com.ra.dissection.protocol.domain.search.UserSearch">
+    <result column="id" property="id"/>
+    <result column="owner" property="owner"/>
+    <result column="doctor_id" property="doctorId"/>
+    <result column="hospital_id" property="hospitalId"/>
+    <result column="medical_examination_date" property="medicalExaminationDate" typeHandler="org.apache.ibatis.type.DateOnlyTypeHandler"/>
+    <result column="medical_examination_date_from" property="medicalExaminationDateFrom" typeHandler="org.apache.ibatis.type.DateOnlyTypeHandler"/>
+    <result column="medical_examination_date_to" property="medicalExaminationDateTo" typeHandler="org.apache.ibatis.type.DateOnlyTypeHandler"/>
+    <result column="medical_examination_time_from" property="medicalExaminationTimeFromValue" typeHandler="org.apache.ibatis.type.IntegerTypeHandler"/>
+    <result column="medical_examination_time_to" property="medicalExaminationTimeToValue" typeHandler="org.apache.ibatis.type.IntegerTypeHandler"/>
+    <result column="patient_last_name" property="patientLastName"/>
+    <result column="patient_first_name" property="patientFirstName"/>
+    <result column="patient_identification_number" property="patientIdentificationNumber"/>
+    <result column="medical_examination_number" property="medicalExaminationNumber"/>
+  </resultMap>
+
+  <sql id="selectUserSearch">
+    select id,
+      owner,
+      doctor_id,
+      hospital_id,
+      medical_examination_date,
+      medical_examination_date_from,
+      medical_examination_date_to,
+      medical_examination_time_from,
+      medical_examination_time_to,
+      patient_last_name,
+      patient_first_name,
+      patient_identification_number,
+      medical_examination_number
+    from session_user_search
+  </sql>
+
+  <insert id="insertSearch" useGeneratedKeys="true" parameterType="com.ra.dissection.protocol.domain.search.UserSearch" keyProperty="id" keyColumn="id">
+    insert into session_user_search (owner, doctor_id, hospital_id, medical_examination_date, medical_examination_date_from, medical_examination_date_to, medical_examination_time_from, medical_examination_time_to, patient_last_name, patient_first_name, patient_identification_number, medical_examination_number) values (#{owner}, #{doctorId}, #{hospitalId}, #{medicalExaminationDate}, #{medicalExaminationDateFrom}, #{medicalExaminationDateTo}, #{medicalExaminationTimeFromValue}, #{medicalExaminationTimeToValue}, #{patientLastName}, #{patientFirstName}, #{patientIdentificationNumber}, #{medicalExaminationNumber})
+  </insert>
+
+  <update id="updateSearch" parameterType="com.ra.dissection.protocol.domain.search.UserSearch">
+    update session_user_search set owner = #{owner}, doctor_id = #{doctorId}, hospital_id = #{hospitalId}, medical_examination_date = #{medicalExaminationDate}, medical_examination_date_from = #{medicalExaminationDateFrom}, medical_examination_date_to = #{medicalExaminationDateTo}, medical_examination_time_from = #{medicalExaminationTimeFromValue}, medical_examination_time_to = #{medicalExaminationTimeToValue}, patient_last_name = #{patientLastName}, patient_first_name = #{patientFirstName}, patient_identification_number = #{patientIdentificationNumber}, medical_examination_number = #{medicalExaminationNumber} where id = #{id}
+  </update>
+
+  <delete id="deleteSearch" parameterType="long">
+    delete from session_user_search where id = #{id}
+  </delete>
+
+  <delete id="deleteUserSearch" parameterType="java.lang.String">
+    delete from session_user_search where owner = #{username}
+  </delete>
+
+  <select id="selectSearch" parameterType="long" resultType="com.ra.dissection.protocol.domain.search.UserSearch" resultMap="userSearchResultMap">
+    <include refid="selectUserSearch"/> where id = #{id}
+  </select>
+
+  <select id="selectUserSearch" parameterType="java.lang.String" resultType="com.ra.dissection.protocol.domain.search.UserSearch" resultMap="userSearchResultMap">
+    <include refid="selectUserSearch"/> where owner = #{owner}
+  </select>
+
+</mapper>

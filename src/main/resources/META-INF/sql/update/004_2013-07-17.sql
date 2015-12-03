@@ -1,0 +1,2 @@
+update settings_dissection_diagnose_source set latin = concat(latin, '.') where latin not like '%.';
+update settings_dissection_diagnose_source set translated = concat(translated, '.') where translated not like '%.';

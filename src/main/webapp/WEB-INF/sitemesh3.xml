@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh>
+
+  <mapping>
+    <path>/protocol/*</path>
+    <decorator>/WEB-INF/decorator/protocol.jsp</decorator>
+    <decorator>/WEB-INF/decorator/main.jsp</decorator>
+  </mapping>
+
+  <mapping>
+    <path>/search/*</path>
+    <decorator>/WEB-INF/decorator/search.jsp</decorator>
+    <decorator>/WEB-INF/decorator/main.jsp</decorator>
+  </mapping>
+
+  <mapping>
+    <path>/settings/*</path>
+    <decorator>/WEB-INF/decorator/settings.jsp</decorator>
+    <decorator>/WEB-INF/decorator/main.jsp</decorator>
+  </mapping>
+
+  <mapping>
+    <path>/security/*</path>
+    <decorator>/WEB-INF/decorator/security.jsp</decorator>
+  </mapping>
+
+  <mapping>
+    <path>/account/*</path>
+    <decorator>/WEB-INF/decorator/account.jsp</decorator>
+    <decorator>/WEB-INF/decorator/main.jsp</decorator>
+  </mapping>
+
+  <mapping>
+    <path>/error/*</path>
+    <decorator>/WEB-INF/decorator/error.jsp</decorator>
+    <decorator>/WEB-INF/decorator/main.jsp</decorator>
+  </mapping>
+
+</sitemesh>

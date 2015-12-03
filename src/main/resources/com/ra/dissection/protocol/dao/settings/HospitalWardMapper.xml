@@ -1,0 +1,71 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ra.dissection.protocol.dao.settings.HospitalWardMapper">
+
+  <resultMap id="HospitalWardResultMap" type="com.ra.dissection.protocol.domain.settings.HospitalWard">
+    <result column="id" property="id"/>
+    <result column="hospital_id" property="hospitalId"/>
+    <result column="name" property="name"/>
+    <result column="dissection_ward" property="dissection"/>
+    <result column="phone" property="phone"/>
+  </resultMap>
+
+  <resultMap id="HospitalWardImageResultMap" type="com.ra.dissection.protocol.domain.common.ImageData">
+    <result column="image_data" property="data"/>
+  </resultMap>
+
+  <sql id="selectHospitalWardSql">
+    select id, hospital_id, name, dissection_ward, phone from settings_hospital_ward
+  </sql>
+
+  <insert id="insertHospitalWard" useGeneratedKeys="true" parameterType="com.ra.dissection.protocol.domain.settings.HospitalWard" keyProperty="id" keyColumn="id">
+    insert into settings_hospital_ward (hospital_id, name, dissection_ward, phone) values (#{hospitalId}, #{name}, #{dissection}, #{phone})
+  </insert>
+
+  <update id="updateHospitalWard" parameterType="com.ra.dissection.protocol.domain.settings.HospitalWard">
+    update settings_hospital_ward set hospital_id = #{hospitalId}, name = #{name}, dissection_ward = #{dissection}, phone = #{phone} where id = #{id}
+  </update>
+
+  <update id="updateHospitalWardImage" parameterType="java.util.Map">
+    update settings_hospital_ward set image_data = #{imageData} where id = #{id}
+  </update>
+
+  <delete id="deleteHospitalWard" parameterType="long">
+    delete from settings_hospital_ward where id = #{id}
+  </delete>
+
+  <select id="selectId" parameterType="java.lang.Long" resultType="java.lang.Long">
+    select id from settings_hospital_ward where id = #{id}
+  </select>
+
+  <select id="selectHospitalWard" parameterType="long" resultType="com.ra.dissection.protocol.domain.settings.HospitalWard" resultMap="HospitalWardResultMap">
+    <include refid="selectHospitalWardSql"/> where id = #{id}
+  </select>
+
+  <select id="selectHospitalWards" resultType="com.ra.dissection.protocol.domain.settings.HospitalWard" resultMap="HospitalWardResultMap">
+    <include refid="selectHospitalWardSql"/> order by hospital_id, name
+  </select>
+
+  <select id="selectWardsInHospital" parameterType="long" resultType="com.ra.dissection.protocol.domain.settings.HospitalWard" resultMap="HospitalWardResultMap">
+    <include refid="selectHospitalWardSql"/> where hospital_id = #{hospitalId}
+  </select>
+
+  <select id="selectHospitalWardByName" parameterType="com.ra.dissection.protocol.domain.settings.HospitalWard" resultType="com.ra.dissection.protocol.domain.settings.HospitalWard" resultMap="HospitalWardResultMap">
+    <include refid="selectHospitalWardSql"/> where name = #{name} and hospital_id = #{hospitalId}
+  </select>
+
+  <select id="selectDissectionHospitalWard" parameterType="long" resultType="com.ra.dissection.protocol.domain.settings.HospitalWard" resultMap="HospitalWardResultMap">
+    <include refid="selectHospitalWardSql"/> where hospital_id = #{hospitalId} and dissection_ward = 1
+  </select>
+
+  <select id="selectHospitalWardsByIds" resultType="com.ra.dissection.protocol.domain.settings.HospitalWard" resultMap="HospitalWardResultMap">
+    <include refid="selectHospitalWardSql"/> where id in
+    <foreach item="idItem" index="index" collection="array" open="(" separator="," close=")">
+      #{idItem}
+    </foreach>
+  </select>
+
+  <select id="selectHospitalWardImage" parameterType="long" resultMap="HospitalWardImageResultMap">
+    select image_data from settings_hospital_ward where id = #{id}
+  </select>
+</mapper>

@@ -1,0 +1,76 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ra.dissection.protocol.dao.protocol.ReportMapper">
+
+  <resultMap id="ReportInfoResultMap" type="com.ra.dissection.protocol.domain.report.ReportInfo">
+    <result column="id" property="id"/>
+    <result column="dissection_protocol_id" property="dissectionProtocolId"/>
+    <result column="status" property="reportStatus"/>
+    <result column="has_latin_start_page" property="hasLatinStartPage"/>
+    <result column="has_translated_start_page" property="hasTranslatedStartPage"/>
+    <result column="has_content_pages" property="hasContentPages"/>
+    <result column="has_report" property="hasReport"/>
+  </resultMap>
+
+  <resultMap id="ReportFileResultMap" type="com.ra.dissection.protocol.domain.report.ReportFile">
+    <result column="id" property="id"/>
+    <result column="dissection_protocol_id" property="dissectionProtocolId"/>
+    <result column="data" property="data"/>
+    <result column="report_part" property="reportPart"/>
+    <result column="status" property="reportStatus"/>
+  </resultMap>
+
+  <sql id="selectReportInfoSql">
+    select id, dissection_protocol_id, status, (latin_start_page is not null) as has_latin_start_page, (translated_start_page is not null) as has_translated_start_page, (content_pages is not null) as has_content_pages, (report is not null) as has_report from dp_report
+  </sql>
+
+  <insert id="insertEmptyReport" parameterType="long">
+    insert into dp_report (dissection_protocol_id, status) values (#{dissectionProtocolId}, 'NEED_ALL')
+  </insert>
+
+  <update id="updateLatinStartPage" parameterType="com.ra.dissection.protocol.domain.report.ReportFile">
+    update dp_report set latin_start_page = #{data}, status = #{reportStatus} where id = #{id}
+  </update>
+
+  <update id="updateTranslatedStartPage" parameterType="com.ra.dissection.protocol.domain.report.ReportFile">
+    update dp_report set translated_start_page = #{data}, status = #{reportStatus} where id = #{id}
+  </update>
+
+  <update id="updateContentPages" parameterType="com.ra.dissection.protocol.domain.report.ReportFile">
+    update dp_report set content_pages = #{data}, status = #{reportStatus} where id = #{id}
+  </update>
+
+  <update id="updateFullReport" parameterType="com.ra.dissection.protocol.domain.report.ReportFile">
+    update dp_report set report = #{data}, status = #{reportStatus} where id = #{id}
+  </update>
+
+  <update id="updateStatus" parameterType="java.util.Map">
+    update dp_report set status = #{status} where id = #{id}
+  </update>
+
+  <delete id="deleteDissectionProtocolReport" parameterType="long">
+    delete from dp_report where dissection_protocol_id = #{id}
+  </delete>
+
+  <!-- SELECTS -->
+  <select id="selectReportInfo" parameterType="long" resultMap="ReportInfoResultMap">
+    <include refid="selectReportInfoSql"/> where dissection_protocol_id = #{id}
+  </select>
+
+  <select id="selectLatinStartPagePart" parameterType="long" resultMap="ReportFileResultMap">
+    select id, dissection_protocol_id, latin_start_page as data, 'LATIN' as report_part, status from dp_report where id = #{id}
+  </select>
+
+  <select id="selectTranslatedStartPagePart" parameterType="long" resultMap="ReportFileResultMap">
+    select id, dissection_protocol_id, translated_start_page as data, 'TRANSLATED' as report_part, status from dp_report where id = #{id}
+  </select>
+
+  <select id="selectContentPagesPart" parameterType="long" resultMap="ReportFileResultMap">
+    select id, dissection_protocol_id, content_pages as data, 'CONTENT' as report_part, status from dp_report where id = #{id}
+  </select>
+
+  <select id="selectFullReportData" parameterType="long" resultMap="ReportFileResultMap">
+    select id, dissection_protocol_id, report as data, 'FULL' as report_part, status from dp_report where dissection_protocol_id = #{id}
+  </select>
+
+</mapper>

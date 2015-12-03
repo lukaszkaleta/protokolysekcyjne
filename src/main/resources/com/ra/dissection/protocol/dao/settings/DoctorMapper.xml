@@ -1,0 +1,43 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ra.dissection.protocol.dao.settings.DoctorMapper">
+
+  <resultMap id="doctorResultMap" type="com.ra.dissection.protocol.domain.settings.Doctor">
+    <result column="id" property="id"/>
+    <result column="first_name" property="firstName"/>
+    <result column="last_name" property="lastName"/>
+    <result column="title" property="title"/>
+    <result column="phone" property="phone"/>
+  </resultMap>
+
+  <sql id="selectDoctor">
+    select id, first_name, last_name, title, phone from settings_doctor
+  </sql>
+
+  <insert id="insertDoctor" useGeneratedKeys="true" parameterType="com.ra.dissection.protocol.domain.settings.Doctor" keyProperty="id" keyColumn="id">
+    insert into settings_doctor (first_name, last_name, title, phone) values (#{firstName}, #{lastName}, #{title}, #{phone})
+  </insert>
+
+  <update id="updateDoctor" parameterType="com.ra.dissection.protocol.domain.settings.Doctor">
+    update settings_doctor set first_name = #{firstName}, last_name = #{lastName}, title = #{title}, phone = #{phone} where id = #{id}
+  </update>
+
+  <delete id="deleteDoctor" parameterType="long">
+    delete from settings_doctor where id = #{id}
+  </delete>
+
+  <select id="selectDoctor" parameterType="long" resultType="com.ra.dissection.protocol.domain.settings.Doctor" resultMap="doctorResultMap">
+    <include refid="selectDoctor"/> where id = #{id}
+  </select>
+
+  <select id="selectDoctors" resultType="com.ra.dissection.protocol.domain.settings.Doctor" resultMap="doctorResultMap">
+    <include refid="selectDoctor"/>
+  </select>
+
+  <select id="filterDoctors" parameterType="java.lang.String" resultType="com.ra.dissection.protocol.domain.settings.Doctor" resultMap="doctorResultMap">
+    <include refid="selectDoctor"/> where name like '%{name}'
+  </select>
+
+</mapper>

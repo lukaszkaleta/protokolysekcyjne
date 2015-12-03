@@ -1,0 +1,50 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ra.dissection.protocol.dao.protocol.HistopathologicalExaminationMapper">
+
+  <resultMap id="HistopathologicalExaminationResultMap" type="com.ra.dissection.protocol.domain.protocol.HistopathologicalExamination">
+    <result column="id" property="id"/>
+    <result column="dissection_protocol_id" property="dissectionProtocolId"/>
+    <result column="name" property="name"/>
+    <result column="number" property="number"/>
+    <result column="from_day" property="fromDay"/>
+    <result column="description" property="description"/>
+  </resultMap>
+
+  <sql id="selectHistopathologicalExaminationSql">
+    select id, dissection_protocol_id, name, number, from_day, description from dp_histopathological_examination
+  </sql>
+
+  <insert id="insertHistopathologicalExamination" useGeneratedKeys="true" parameterType="com.ra.dissection.protocol.domain.protocol.HistopathologicalExamination" keyProperty="id" keyColumn="id">
+    insert into dp_histopathological_examination (dissection_protocol_id, name, number, from_day, description) values (#{dissectionProtocolId}, #{name}, #{number}, #{fromDay}, #{description})
+  </insert>
+
+  <insert id="insertClone">
+    insert into dp_histopathological_examination (dissection_protocol_id, name, description) select #{targetDissectionProtocolId}, name, description from dp_histopathological_examination where dissection_protocol_id = #{sourceDissectionProtocolId}
+  </insert>
+
+  <update id="updateHistopathologicalExamination" parameterType="com.ra.dissection.protocol.domain.protocol.HistopathologicalExamination">
+    update dp_histopathological_examination set number = #{number}, from_day = #{fromDay}, description = #{description} where id = #{id}
+  </update>
+
+  <delete id="deleteHistopathologicalExamination" parameterType="long">
+    delete from dp_histopathological_examination where id = #{id}
+  </delete>
+
+  <delete id="deleteDissectionProtocolHistopathologicalExamination" parameterType="long">
+    delete from dp_histopathological_examination where dissection_protocol_id = #{id}
+  </delete>
+
+  <select id="selectHistopathologicalExamination" parameterType="long" resultType="com.ra.dissection.protocol.domain.protocol.HistopathologicalExamination" resultMap="HistopathologicalExaminationResultMap">
+    <include refid="selectHistopathologicalExaminationSql"/> where id = #{id}
+  </select>
+
+  <select id="selectHistopathologicalExaminations" resultType="com.ra.dissection.protocol.domain.protocol.HistopathologicalExamination" resultMap="HistopathologicalExaminationResultMap">
+    <include refid="selectHistopathologicalExaminationSql"/>
+  </select>
+
+  <select id="selectHistopathologicalExaminationForDissectionProtocol" resultType="com.ra.dissection.protocol.domain.protocol.HistopathologicalExamination" resultMap="HistopathologicalExaminationResultMap" parameterType="long">
+    <include refid="selectHistopathologicalExaminationSql"/> where dissection_protocol_id = #{dissectionProtocolId}
+  </select>
+
+</mapper>

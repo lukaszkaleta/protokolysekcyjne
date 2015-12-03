@@ -1,0 +1,86 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ra.dissection.protocol.dao.settings.DissectionDiagnoseSourceMapper">
+
+  <resultMap id="dissectionDiagnoseSourceResultMap" type="com.ra.dissection.protocol.domain.settings.DissectionDiagnoseSource">
+    <result column="id" property="id"/>
+    <result column="description_point_source_id" property="descriptionPointSourceId"/>
+    <result column="description_point_source_available" property="descriptionPointSourceAvailable"/>
+    <result column="dissection_diagnose_source_option_available" property="dissectionDiagnoseSourceOptionAvailable"/>
+    <result column="latin" property="name.latin"/>
+    <result column="translated" property="name.translated"/>
+    <result column="category_adult" property="category.adult"/>
+    <result column="category_newborn" property="category.newborn"/>
+    <result column="category_fetus" property="category.fetus"/>
+    <result column="type" property="type"/>
+  </resultMap>
+
+  <sql id="selectDissectionDiagnoseSourceSql">
+    select
+      sdds.id,
+      sdds.description_point_source_id,
+      (select sdps.description is not null and sdps.point > 0 from settings_description_point_source as sdps where sdps.id = sdds.description_point_source_id) as description_point_source_available,
+      (select count(*) > 0 from settings_dissection_diagnose_source_option as sddso where sddso.dissection_diagnose_source_id = sdds.id ) as dissection_diagnose_source_option_available,
+      sdds.latin,
+      sdds.translated,
+      sdds.category_adult,
+      sdds.category_newborn,
+      sdds.category_fetus,
+      type
+    from
+      settings_dissection_diagnose_source as sdds
+  </sql>
+
+  <insert id="insertDissectionDiagnoseSource" useGeneratedKeys="true" parameterType="com.ra.dissection.protocol.domain.settings.DissectionDiagnoseSource" keyProperty="id" keyColumn="id">
+    insert into settings_dissection_diagnose_source (description_point_source_id, latin, translated, category_adult, category_newborn, category_fetus, type) values (#{descriptionPointSourceId}, #{name.latin}, #{name.translated}, #{category.adult}, #{category.newborn}, #{category.fetus}, #{type})
+  </insert>
+
+  <insert id="insertDissectionDiagnoseName" useGeneratedKeys="true" parameterType="com.ra.dissection.protocol.domain.settings.DissectionDiagnoseSource" keyProperty="id" keyColumn="id">
+    insert into settings_dissection_diagnose_source (latin, translated, type) values (#{latin}, #{translated}, #{type})
+  </insert>
+
+  <update id="updateDissectionDiagnoseSource" parameterType="com.ra.dissection.protocol.domain.settings.DissectionDiagnoseSource">
+    update settings_dissection_diagnose_source set latin = #{name.latin}, translated = #{name.translated}, category_adult = #{category.adult}, category_newborn = #{category.newborn}, category_fetus = #{category.fetus}, type = #{type} where id = #{id}
+  </update>
+
+  <delete id="deleteDissectionDiagnoseSource" parameterType="long">
+    delete from settings_dissection_diagnose_source where id = #{id}
+  </delete>
+
+  <delete id="deleteDissectionDiagnoseSourceByDescriptionPointSource" parameterType="long">
+    delete from settings_dissection_diagnose_source where description_point_source_id = #{id}
+  </delete>
+
+  <select id="selectDissectionDiagnoseSource" parameterType="long" resultType="com.ra.dissection.protocol.domain.settings.DissectionDiagnoseSource" resultMap="dissectionDiagnoseSourceResultMap">
+    <include refid="selectDissectionDiagnoseSourceSql"/> where id = #{id}
+  </select>
+
+  <select id="selectDissectionDiagnoseSources" resultType="com.ra.dissection.protocol.domain.settings.DissectionDiagnoseSource" resultMap="dissectionDiagnoseSourceResultMap">
+    <include refid="selectDissectionDiagnoseSourceSql"/> order by latin
+  </select>
+
+  <select id="selectDissectionDiagnoseSourcesForCategory" resultType="com.ra.dissection.protocol.domain.settings.DissectionDiagnoseSource" resultMap="dissectionDiagnoseSourceResultMap" parameterType="com.ra.dissection.protocol.domain.settings.DissectionProtocolCategory">
+    <include refid="selectDissectionDiagnoseSourceSql"/> where (category_adult = #{adult} or category_newborn = #{newborn} or category_fetus = #{fetus}) and latin like concat(#{firstLetter}, '%') order by latin
+  </select>
+
+  <select id="selectDissectionDiagnoseSourceByDescriptionPointSource" resultType="com.ra.dissection.protocol.domain.settings.DissectionDiagnoseSource" resultMap="dissectionDiagnoseSourceResultMap" parameterType="long">
+    <include refid="selectDissectionDiagnoseSourceSql"/> where description_point_source_id = #{descriptionPointSourceId} order by latin
+  </select>
+
+  <select id="selectDissectionDiagnoseWithReplacementDescription" parameterType="long" resultType="com.ra.dissection.protocol.domain.settings.DissectionDiagnoseSource" resultMap="dissectionDiagnoseSourceResultMap">
+    <include refid="selectDissectionDiagnoseSourceSql"/> where description_point_source_id in
+      (select id from settings_description_point_source where
+        point = (select point from settings_description_point_source where id = #{id}) and
+        position = (select position from settings_description_point_source where id = #{id})
+        and type = 'DIAGNOSE'
+      )
+  </select>
+
+  <select id="selectDissectionDiagnoseSourceByLetter" resultType="com.ra.dissection.protocol.domain.settings.DissectionDiagnoseSource" resultMap="dissectionDiagnoseSourceResultMap">
+    <include refid="selectDissectionDiagnoseSourceSql"/> where latin like concat(#{firstLetter}, '%') order by latin
+  </select>
+
+  <select id="selectFirstLetters" resultType="java.lang.String">
+    select distinct UCASE(SUBSTRING(latin, 1, 1)) from settings_dissection_diagnose_source order by latin
+  </select>
+</mapper>

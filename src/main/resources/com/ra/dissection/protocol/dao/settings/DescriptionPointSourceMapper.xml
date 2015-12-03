@@ -1,0 +1,109 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ra.dissection.protocol.dao.settings.DescriptionPointSourceMapper">
+
+  <resultMap id="DescriptionPointSourceResultMap" type="com.ra.dissection.protocol.domain.settings.DescriptionPointSource">
+    <result column="id" property="id"/>
+    <result column="point" property="point"/>
+    <result column="position" property="position"/>
+    <result column="description" property="description"/>
+    <result column="type" property="type" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+    <result column="category_adult" property="category.adult"/>
+    <result column="category_newborn" property="category.newborn"/>
+    <result column="category_fetus" property="category.fetus"/>
+  </resultMap>
+
+  <sql id="selectDescriptionPointSourceSql">
+    select id, point, position, description, type, category_adult, category_newborn, category_fetus from settings_description_point_source
+  </sql>
+
+  <insert id="insertDescriptionPointSource" useGeneratedKeys="true"
+          parameterType="com.ra.dissection.protocol.domain.settings.DescriptionPointSource" keyProperty="id"
+          keyColumn="id">
+    insert into settings_description_point_source (point, position, description, type, category_adult, category_newborn, category_fetus ) values (#{point}, #{position}, #{description}, #{type}, #{category.adult}, #{category.newborn}, #{category.fetus})
+  </insert>
+
+  <update id="updateDescriptionPointSource"
+          parameterType="com.ra.dissection.protocol.domain.settings.DescriptionPointSource">
+    update settings_description_point_source set point = #{point}, position = #{position}, description = #{description}, type = #{type}, category_adult = #{category.adult}, category_newborn = #{category.newborn}, category_fetus = #{category.fetus} where id = #{id}
+  </update>
+
+  <delete id="deleteDescriptionPointSource" parameterType="long">
+    delete from settings_description_point_source where id = #{id}
+  </delete>
+
+  <select id="selectDescriptionPointSource" parameterType="long"
+          resultType="com.ra.dissection.protocol.domain.settings.DescriptionPointSource"
+          resultMap="DescriptionPointSourceResultMap">
+    <include refid="selectDescriptionPointSourceSql"/> where id = #{id}
+  </select>
+
+  <select id="selectDescriptionPointSources" resultType="com.ra.dissection.protocol.domain.settings.DescriptionPointSource"
+          resultMap="DescriptionPointSourceResultMap">
+    <include refid="selectDescriptionPointSourceSql"/>
+  </select>
+
+  <select id="selectDissectionDiagnoseSources" resultType="com.ra.dissection.protocol.domain.settings.DescriptionPointSource"
+          resultMap="DescriptionPointSourceResultMap" parameterType="java.util.Map">
+    <include refid="selectDescriptionPointSourceSql"/> where type = #{descriptionPointType} and
+    <if test="dissectionProtocolCategoryName eq 'ADULT'">
+      category_adult = 1
+    </if>
+    <if test="dissectionProtocolCategoryName eq 'NEWBORN'">
+      category_newborn = 1
+    </if>
+    <if test="dissectionProtocolCategoryName eq 'FETUS'">
+      category_fetus = 1
+    </if>
+  </select>
+
+  <select id="selectNextGeneralPoint" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select max(point) + 1 from settings_description_point_source where type = #{descriptionPointType} and
+    <if test="dissectionProtocolCategoryName eq 'ADULT'">
+      category_adult = 1
+    </if>
+    <if test="dissectionProtocolCategoryName eq 'NEWBORN'">
+      category_newborn = 1
+    </if>
+    <if test="dissectionProtocolCategoryName eq 'FETUS'">
+      category_fetus = 1
+    </if>
+  </select>
+
+  <select id="selectNextGeneralPosition" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select max(position) + 1 from settings_description_point_source where type = #{descriptionPointType} and point = #{point} and
+    <if test="dissectionProtocolCategoryName eq 'ADULT'">
+      category_adult = 1
+    </if>
+    <if test="dissectionProtocolCategoryName eq 'NEWBORN'">
+      category_newborn = 1
+    </if>
+    <if test="dissectionProtocolCategoryName eq 'FETUS'">
+      category_fetus = 1
+    </if>
+  </select>
+
+    <select id="selectSpecificDescriptionPoint" parameterType="java.util.Map"
+            resultType="com.ra.dissection.protocol.domain.settings.DescriptionPointSource"
+            resultMap="DescriptionPointSourceResultMap">
+        <include refid="selectDescriptionPointSourceSql"/> where type = #{descriptionPointType} and point = #{point} and position = #{position} and
+        <if test="categoryName eq 'ADULT'">
+            category_adult = 1
+        </if>
+        <if test="categoryName eq 'NEWBORN'">
+            category_newborn = 1
+        </if>
+        <if test="categoryName eq 'FETUS'">
+            category_fetus = 1
+        </if>
+
+    </select>
+
+  <select id="selectReplacementDiagnoseDescriptionPoints" parameterType="long" resultType="com.ra.dissection.protocol.domain.settings.DescriptionPointSource" resultMap="DescriptionPointSourceResultMap">
+    <include refid="selectDescriptionPointSourceSql"/> where
+      point = (select point from settings_description_point_source where id = #{id}) and
+      position = (select position from settings_description_point_source where id = #{id}) and
+      type = 'DIAGNOSE'
+  </select>
+
+</mapper>

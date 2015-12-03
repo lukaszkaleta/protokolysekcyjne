@@ -1,0 +1,50 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ra.dissection.protocol.dao.protocol.DissectionDiagnoseOptionMapper">
+
+  <resultMap id="dissectionDiagnoseOptionResultMap" type="com.ra.dissection.protocol.domain.protocol.DissectionDiagnoseOption">
+    <result column="id" property="id"/>
+    <result column="dissection_diagnose_id" property="dissectionDiagnoseId"/>
+    <result column="dissection_diagnose_source_option_id" property="dissectionDiagnoseSourceOptionId"/>
+    <result column="latin" property="name.latin"/>
+    <result column="translated" property="name.translated"/>
+    <result column="sort_index" property="sortIndex"/>
+  </resultMap>
+
+  <sql id="selectDissectionDiagnoseOptionSql">
+    select id, dissection_diagnose_id, dissection_diagnose_source_option_id, latin, translated, sort_index from dp_dissection_diagnose_option
+  </sql>
+
+  <insert id="insertDissectionDiagnoseOption" useGeneratedKeys="true" parameterType="com.ra.dissection.protocol.domain.protocol.DissectionDiagnoseOption" keyProperty="id" keyColumn="id">
+    insert into dp_dissection_diagnose_option (dissection_diagnose_id, dissection_diagnose_source_option_id, latin, translated, sort_index) values (#{dissectionDiagnoseId}, #{dissectionDiagnoseSourceOptionId}, #{name.latin}, #{name.translated}, #{sortIndex})
+  </insert>
+
+  <update id="updateDissectionDiagnoseOption" parameterType="com.ra.dissection.protocol.domain.protocol.DissectionDiagnoseOption">
+    update dp_dissection_diagnose_option set latin = #{name.latin}, translated = #{name.translated} where id = #{id}
+  </update>
+
+  <delete id="deleteDissectionDiagnoseOption" parameterType="long">
+    delete from dp_dissection_diagnose_option where id = #{id}
+  </delete>
+
+  <delete id="deleteDissectionDiagnoseOptionByDissectionDiagnose" parameterType="long">
+    delete from dp_dissection_diagnose_option where dissection_diagnose_id = #{id}
+  </delete>
+
+  <select id="selectOption" parameterType="long" resultMap="dissectionDiagnoseOptionResultMap">
+    <include refid="selectDissectionDiagnoseOptionSql"/> where id = #{id} order by sort_index
+  </select>
+
+  <select id="selectOptionsForDissectionDiagnose" parameterType="long" resultMap="dissectionDiagnoseOptionResultMap">
+    <include refid="selectDissectionDiagnoseOptionSql"/> where dissection_diagnose_id = #{id} order by sort_index
+  </select>
+
+  <select id="selectOptionsForDissectionDiagnoses" parameterType="java.util.List" resultMap="dissectionDiagnoseOptionResultMap">
+    <include refid="selectDissectionDiagnoseOptionSql"/> where dissection_diagnose_id in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+    order by sort_index
+  </select>
+
+</mapper>

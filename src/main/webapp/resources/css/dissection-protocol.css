@@ -1,0 +1,44 @@
+a.undecorated {
+    color: #333333; !important;
+    text-decoration: none;
+}
+a.undecorated:hover,
+a.undecorated:focus {
+    color: #333333;
+    text-decoration: underline;
+}
+
+#preview-pdf {
+    width: 100%;
+    height: 750px;
+}
+
+#preview-pdf p {
+    padding: 1em;
+}
+
+#preview-pdf object {
+    display: block;
+    border: solid 1px #666;
+}
+
+#editor {overflow:scroll; max-height:300px}
+
+.form-actions-left:before, .form-actions-left:after {
+    content: "";
+    display: table;
+    line-height: 0;
+}
+.form-actions-left:after {
+    clear: both;
+}
+.form-horizontal .form-actions-left {
+    padding-left: 20px;
+}
+.form-actions-left {
+    background-color: #F5F5F5;
+    border-top: 1px solid #E5E5E5;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding: 19px 20px 20px;
+}

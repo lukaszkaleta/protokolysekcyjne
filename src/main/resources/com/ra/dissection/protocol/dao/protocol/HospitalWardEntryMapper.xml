@@ -1,0 +1,52 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ra.dissection.protocol.dao.protocol.HospitalWardEntryMapper">
+
+  <resultMap id="HospitalWardEntryResultMap" type="com.ra.dissection.protocol.domain.protocol.HospitalWardEntry">
+    <result column="id" property="id"/>
+    <result column="hospital_ward_id" property="hospitalWardId"/>
+    <result column="dissection_protocol_id" property="dissectionProtocolId"/>
+  </resultMap>
+
+  <sql id="selectHospitalWardEntrySql">
+    select id, hospital_ward_id, dissection_protocol_id from dp_hospital_ward_entry
+  </sql>
+
+  <insert id="insertHospitalWardEntry" useGeneratedKeys="true" parameterType="com.ra.dissection.protocol.domain.protocol.HospitalWardEntry" keyProperty="id" keyColumn="id">
+    insert into dp_hospital_ward_entry (hospital_ward_id, dissection_protocol_id) values (#{hospitalWardId}, #{dissectionProtocolId})
+  </insert>
+
+  <update id="updateHospitalWardEntry" parameterType="com.ra.dissection.protocol.domain.protocol.HospitalWardEntry">
+    update dp_hospital_ward_entry set hospital_ward_id = #{hospitalWardId}, dissection_protocol_id = #{dissection_protocol_id} where id = #{id}
+  </update>
+
+  <delete id="deleteHospitalWardEntry" parameterType="long">
+    delete from dp_hospital_ward_entry where id = #{id}
+  </delete>
+
+  <delete id="deleteHospitalWardEntries" parameterType="long">
+    delete from dp_hospital_ward_entry where dissection_protocol_id = #{id}
+  </delete>
+
+  <delete id="deleteHospitalWardFromDissectionProtocol">
+    delete from dp_hospital_ward_entry where dissection_protocol_id = #{dissectionProtocolId} and hospital_ward_id = #{hospitalWardId}
+  </delete>
+
+  <select id="selectId" parameterType="java.lang.Long" resultType="java.lang.Long">
+    select id from dp_hospital_ward_entry where id = #{id}
+  </select>
+
+  <select id="selectHospitalWardEntry" parameterType="long" resultType="com.ra.dissection.protocol.domain.protocol.HospitalWardEntry" resultMap="HospitalWardEntryResultMap">
+    <include refid="selectHospitalWardEntrySql"/>
+    where id = #{id}
+  </select>
+
+  <select id="selectHospitalWardEntries" resultType="com.ra.dissection.protocol.domain.protocol.HospitalWardEntry" resultMap="HospitalWardEntryResultMap">
+    <include refid="selectHospitalWardEntrySql"/>
+  </select>
+
+  <select id="selectProtocolHospitalWardEntries" parameterType="long" resultType="com.ra.dissection.protocol.domain.protocol.HospitalWardEntry" resultMap="HospitalWardEntryResultMap">
+    <include refid="selectHospitalWardEntrySql"/> where dissection_protocol_id = #{dissectionProtocolId}
+  </select>
+
+</mapper>

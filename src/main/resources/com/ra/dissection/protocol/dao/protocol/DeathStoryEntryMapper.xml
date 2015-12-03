@@ -1,0 +1,45 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ra.dissection.protocol.dao.protocol.DeathStoryEntryMapper">
+
+  <resultMap id="doctorResultMap" type="com.ra.dissection.protocol.domain.protocol.DeathStoryEntry">
+    <result column="id" property="id"/>
+    <result column="dissection_protocol_id" property="dissectionProtocolId"/>
+    <result column="name" property="name"/>
+    <result column="source_name" property="sourceName" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+    <result column="occur_date" property="date" typeHandler="org.apache.ibatis.type.DateTypeHandler"/>
+    <result column="occur_time" property="time.value" typeHandler="org.apache.ibatis.type.IntegerTypeHandler"/>
+    <result column="description" property="description"/>
+  </resultMap>
+
+  <sql id="selectDeathStoryEntry">
+    select id, dissection_protocol_id, name, source_name, occur_date, occur_time, description from dp_death_story_entry
+  </sql>
+
+  <insert id="insertDeathStoryEntry" useGeneratedKeys="true" parameterType="com.ra.dissection.protocol.domain.protocol.DeathStoryEntry" keyProperty="id" keyColumn="id">
+    insert into dp_death_story_entry (dissection_protocol_id, name, source_name, occur_date, occur_time, description) values (#{dissectionProtocolId}, #{name}, #{sourceName}, #{date}, #{time.value}, #{description})
+  </insert>
+
+  <update id="updateDeathStoryEntry" parameterType="com.ra.dissection.protocol.domain.protocol.DeathStoryEntry">
+    update dp_death_story_entry set name = #{name}, source_name = #{sourceName}, occur_date = #{date}, occur_time = #{time.value} where id = #{id}
+  </update>
+
+  <delete id="deleteDeathStoryEntry" parameterType="long">
+    delete from dp_death_story_entry where id = #{id}
+  </delete>
+
+  <delete id="deleteDeathStoryEntries" parameterType="long">
+    delete from dp_death_story_entry where dissection_protocol_id = #{dissectionProtocolId}
+  </delete>
+
+  <select id="selectDeathStoryEntry" parameterType="long" resultType="com.ra.dissection.protocol.domain.protocol.DeathStoryEntry" resultMap="doctorResultMap">
+    <include refid="selectDeathStoryEntry"/> where id = #{id}
+  </select>
+
+  <select id="selectDeathStoryEntries" parameterType="long" resultType="com.ra.dissection.protocol.domain.protocol.DeathStoryEntry" resultMap="doctorResultMap">
+    <include refid="selectDeathStoryEntry"/> where dissection_protocol_id = #{dissectionProtocolId}
+  </select>
+
+</mapper>

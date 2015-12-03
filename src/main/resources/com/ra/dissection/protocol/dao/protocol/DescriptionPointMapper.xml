@@ -1,0 +1,70 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ra.dissection.protocol.dao.protocol.DescriptionPointMapper">
+
+  <resultMap id="DescriptionPointResultMap" type="com.ra.dissection.protocol.domain.protocol.DescriptionPoint">
+    <result column="id" property="id"/>
+    <result column="dissection_protocol_id" property="dissectionProtocolId"/>
+    <result column="description_point_source_id" property="descriptionPointSource.id"/>
+    <result column="customization" property="customization"/>
+    <result column="description" property="descriptionPointSource.description"/>
+    <result column="point" property="descriptionPointSource.point"/>
+    <result column="position" property="descriptionPointSource.position"/>
+    <result column="sort_index" property="index"/>
+    <result column="type" property="descriptionPointSource.type"/>
+  </resultMap>
+
+  <sql id="selectDescriptionPointSql">
+    select id, dissection_protocol_id, description_point_source_id, customization, description, point, position, sort_index, type from dp_description_point
+  </sql>
+
+  <insert id="insertDescriptionPoint" useGeneratedKeys="true" parameterType="com.ra.dissection.protocol.domain.protocol.DescriptionPoint" keyProperty="id" keyColumn="id">
+    insert into dp_description_point (dissection_protocol_id, description_point_source_id, customization, description, point, position, sort_index, type) values (#{dissectionProtocolId}, #{descriptionPointSource.id}, 0, #{descriptionPointSource.description}, #{descriptionPointSource.point}, #{descriptionPointSource.position}, #{index}, #{descriptionPointSource.type})
+  </insert>
+
+  <insert id="insertCloneDescriptionPoint" useGeneratedKeys="true" parameterType="com.ra.dissection.protocol.domain.protocol.DescriptionPoint" keyProperty="id" keyColumn="id">
+    insert into dp_description_point (dissection_protocol_id, description_point_source_id, customization, description, point, position, sort_index, type) values (#{dissectionProtocolId}, #{descriptionPointSource.id}, #{customization}, #{descriptionPointSource.description}, #{descriptionPointSource.point}, #{descriptionPointSource.position}, #{index}, #{descriptionPointSource.type})
+  </insert>
+
+  <insert id="insertDescriptionPointsForNewProtocol" useGeneratedKeys="true" parameterType="java.util.Map">
+    insert into dp_description_point (dissection_protocol_id, description_point_source_id, customization, description, point, position, sort_index, type) select #{dissectionProtocolId}, id, 0, description, point, position, 1, type from settings_description_point_source
+    where point > 0 and type = 'GENERAL' and
+      <if test="category eq 'ADULT'">
+        category_adult = 1
+      </if>
+      <if test="category eq 'NEWBORN'">
+        category_newborn = 1
+      </if>
+      <if test="category eq 'FETUS'">
+        category_fetus = 1
+      </if>
+  </insert>
+
+  <update id="updateDescriptionPoint" parameterType="com.ra.dissection.protocol.domain.protocol.DescriptionPoint">
+    update dp_description_point set customization  = 1, description = #{descriptionPointSource.description}, point = #{descriptionPointSource.point}, position = #{descriptionPointSource.position} where id = #{id}
+  </update>
+
+  <update id="updateUntouchedDescriptionPoints" parameterType="com.ra.dissection.protocol.domain.settings.DescriptionPointSource">
+    update dp_description_point set description = #{description} where point = #{point} and position = #{position} and customization = 0 and dissection_protocol_id in (select dissection_protocol_id from dp_dissection_diagnose where dissection_diagnose_source_id in (select id from settings_dissection_diagnose_source where description_point_source_id = #{id}))
+  </update>
+
+  <delete id="deleteDescriptionPoint" parameterType="long">
+    delete from dp_description_point where id = #{id}
+  </delete>
+
+  <delete id="deleteDissectionProtocolDescriptionPoints" parameterType="long">
+    delete from dp_description_point where dissection_protocol_id = #{id}
+  </delete>
+
+  <select id="selectDescriptionPoint" parameterType="long" resultType="com.ra.dissection.protocol.domain.protocol.DescriptionPoint" resultMap="DescriptionPointResultMap">
+    <include refid="selectDescriptionPointSql"/> where id = #{id}
+  </select>
+
+  <select id="selectDescriptionPoints" resultType="com.ra.dissection.protocol.domain.protocol.DescriptionPoint" resultMap="DescriptionPointResultMap">
+    <include refid="selectDescriptionPointSql"/>
+  </select>
+
+  <select id="selectDissectionProtocolDescriptionPoints" resultType="com.ra.dissection.protocol.domain.protocol.DescriptionPoint" resultMap="DescriptionPointResultMap" parameterType="long">
+    <include refid="selectDescriptionPointSql"/> where dissection_protocol_id = #{dissectionProtocolId} order by point, position
+  </select>
+</mapper>
