@@ -31,11 +31,15 @@ public class ReportFonts {
 
     public ReportFonts() {
         String fontLocation;
-        String osName = System.getProperty("os.name");
-        if (osName.equals("Linux")) {
-            fontLocation = linuxFont;
-        } else {
-            fontLocation = windowsFont;
+
+        fontLocation = System.getProperty("dp.times.font");
+        if (fontLocation == null) {
+            String osName = System.getProperty("os.name");
+            if (osName.equals("Linux")) {
+                fontLocation = linuxFont;
+            } else {
+                fontLocation = windowsFont;
+            }
         }
 
         try {
