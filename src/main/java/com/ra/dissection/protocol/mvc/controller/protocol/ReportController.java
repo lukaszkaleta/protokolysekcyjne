@@ -53,6 +53,7 @@ public class ReportController {
     public void pdf(@PathVariable long dissectionProtocolId, HttpServletResponse response) {
         reportService.generateIfNeeded(dissectionProtocolId);
         InputStream fullReport = reportService.getFullReport(dissectionProtocolId);
+        response.setHeader("Content-Type", "application/pdf");
         //response.setHeader("Content-Disposition", "attachment; filename=protokol.pdf");
         try {
             FileCopyUtils.copy(fullReport, response.getOutputStream());

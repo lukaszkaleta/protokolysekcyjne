@@ -11,28 +11,26 @@
 <body>
 <dp:update updateDeniedMessageCode="print.preview.provide.basic.data">
 
+ <c:url value="/protocol/report/${dissectionProtocolId}/${dissectionProtocolName}.pdf" var="dissectionProtocolReportUrl"/>
+
   <ul class="nav nav-pills">
     <li class="">
       <c:url value="/protocol/report/generate/${dissectionProtocolId}" var="dissectionProtocolGenerateUrl"/>
-      <a href="${dissectionProtocolGenerateUrl}">
-        <s:message code="print.preview.pdf.generate"/>
-      </a>
+      <a href="${dissectionProtocolGenerateUrl}"><s:message code="print.preview.pdf.generate"/></a>
+    </li>
+    <li>
+      <a href="${dissectionProtocolReportUrl}"><s:message code="print.preview.pdf.download"/></a>
     </li>
   </ul>
 
-  <c:url value="/protocol/report/${dissectionProtocolId}/${dissectionProtocolName}.pdf" var="dissectionProtocolReportUrl"/>
-
   <div id="preview-pdf">
     <s:message code="print.preview.pdf.missing"/>
-    <a href="${dissectionProtocolReportUrl}"><s:message code="print.preview.pdf.download"/></a>
   </div>
 
   <script type="text/javascript">
 
     window.onload = function (){
-
       var success = new PDFObject({ url: "${dissectionProtocolReportUrl}" }).embed("preview-pdf");
-
     };
 
   </script>

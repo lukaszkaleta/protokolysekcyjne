@@ -95,4 +95,19 @@ public class Patient implements Serializable {
         niceName = niceName.trim();
         return niceName;
     }
+
+    public String getCamelCaseName() {
+        String niceName = "";
+        if (lastName != null) {
+            niceName += lastName + "";
+        }
+        if (firstName != null) {
+            niceName += firstName + "";
+        }
+        if (niceName.trim().isEmpty()) {
+            niceName += description;
+        }
+        niceName = niceName.trim();
+        return niceName;
+    }
 }

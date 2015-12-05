@@ -313,7 +313,7 @@ public class ReportServiceImpl implements ReportService {
     public String getReportName(long dissectionProtocolId) {
         DissectionProtocol dissectionProtocol = dissectionProtocolMapper.selectBasicData(dissectionProtocolId);
         Patient patient = dissectionProtocol.getBasicData().getPatient();
-        return patient.getNiceName();
+        return patient.getCamelCaseName();
     }
 
     private void generateFirstPage(ReportInfo reportInfo, DissectionProtocolReport dissectionProtocol) {

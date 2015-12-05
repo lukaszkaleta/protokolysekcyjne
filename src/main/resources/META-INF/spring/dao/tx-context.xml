@@ -14,8 +14,4 @@
 
   <tx:annotation-driven/>
 
-  <bean id="dataSourceInformation" class="com.ra.dissection.protocol.dao.DataSourceInformation" init-method="printInformation">
-    <constructor-arg ref="dataSource"/>
-  </bean>
-
 </beans>
