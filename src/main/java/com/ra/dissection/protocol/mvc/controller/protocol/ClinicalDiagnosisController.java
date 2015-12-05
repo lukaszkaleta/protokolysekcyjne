@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -48,12 +49,14 @@ public class ClinicalDiagnosisController {
         }
     }
 
-    @RequestMapping(value="/reorder/{protocolId}", method= RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE},
-            produces = MediaType.TEXT_PLAIN_VALUE)
-    public @ResponseBody String updateUserRole(
-            @RequestBody final List<String> data,
-            final HttpServletResponse response) {
-        return "id!";
+    @RequestMapping(
+            value="/reorder/{protocolId}",
+            method= RequestMethod.PUT,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody String updateOrder(@PathVariable String protocolId, @RequestBody List<String> ordered) {
+        dissectionProtocolService.reorderDissectionDiagnose(Long.parseLong(protocolId), ordered);
+        return null;
     }
 
     @RequestMapping(value = "/load")

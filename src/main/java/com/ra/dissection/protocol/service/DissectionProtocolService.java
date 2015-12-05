@@ -190,4 +190,6 @@ public interface DissectionProtocolService {
      * @return list of dissection protocols.
      */
     List<DissectionProtocol> getDissectionDiagnoseProtocols(long dissectionDiagnoseSourceId);
+
+    void reorderDissectionDiagnose(long protocolId, List<String> ordered);
 }

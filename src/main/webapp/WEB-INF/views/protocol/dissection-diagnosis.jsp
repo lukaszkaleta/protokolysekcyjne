@@ -262,17 +262,6 @@
               <c:if test="${optionSourceAvailable[dissectionDiagnose.dissectionDiagnoseSourceId]}">
                 <li><a href='<c:url value="/protocol/dissectionDiagnosis/option/show/${dissectionDiagnose.id}"/>'><s:message code="dissection.diagnose.option.choose"/></a></li>
               </c:if>
-              <c:if test="${reorderEnabled}">
-                <li class="divider"></li>
-                <c:if test="${not dissectionDiagnoseStatus.first}">
-                  <li><a href='<c:url value="/protocol/dissectionDiagnosis/fullUp/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}"/>'><s:message code="button.move.fullUp"/></a></li>
-                  <li><a href='<c:url value="/protocol/dissectionDiagnosis/up/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}"/>'><s:message code="button.move.stepUp"/></a></li>
-                </c:if>
-                <c:if test="${not dissectionDiagnoseStatus.last}">
-                  <li><a href='<c:url value="/protocol/dissectionDiagnosis/down/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}"/>'><s:message code="button.move.stepDown"/></a></li>
-                  <li><a href='<c:url value="/protocol/dissectionDiagnosis/fullDown/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}"/>'><s:message code="button.move.fullDown"/></a></li>
-                </c:if>
-              </c:if>
               <li class="divider"></li>
               <li>
                 <a href="#dissectionDiagnoseDelete${dissectionDiagnose.id}" role="button" class="${cssClass}" data-toggle="modal">
@@ -309,17 +298,6 @@
               <li><a href="${descriptionPointUrl}">${descriptionPointLabel}</a></li>
               <c:if test="${optionSourceAvailable[dissectionDiagnose.dissectionDiagnoseSourceId]}">
                 <li><a href='<c:url value="/protocol/dissectionDiagnosis/option/show/${dissectionDiagnose.id}"/>'><s:message code="dissection.diagnose.option.choose"/></a></li>
-              </c:if>
-              <c:if test="${reorderEnabled}">
-                <li class="divider"></li>
-                <c:if test="${not dissectionDiagnoseStatus.first}">
-                  <li><a href='<c:url value="/protocol/dissectionDiagnosis/fullUp/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}"/>'><s:message code="button.move.fullUp"/></a></li>
-                  <li><a href='<c:url value="/protocol/dissectionDiagnosis/up/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}"/>'><s:message code="button.move.stepUp"/></a></li>
-                </c:if>
-                <c:if test="${not dissectionDiagnoseStatus.last}">
-                  <li><a href='<c:url value="/protocol/dissectionDiagnosis/down/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}"/>'><s:message code="button.move.stepDown"/></a></li>
-                  <li><a href='<c:url value="/protocol/dissectionDiagnosis/fullDown/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}"/>'><s:message code="button.move.fullDown"/></a></li>
-                </c:if>
               </c:if>
               <li class="divider"></li>
               <li>
@@ -367,6 +345,74 @@
   </table>
 
 
+  <script type="application/javascript">
+    $(document).ready(function () {
+
+      var $tabs = $('#table-draggable');
+
+      $("tbody.connectedSortable")
+              .sortable({
+                connectWith: ".connectedSortable",
+                appendTo: $tabs,
+                helper: "clone",
+                zIndex: 999990,
+                update: function( event, ui ) {
+                  var trs = this.children;
+                  var ordered = [];
+                  for(var i = 0; i < trs.length; i++) {
+                    ordered.push(trs[i].id);
+                  }
+                  $.ajax({
+                    headers: {
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json'
+                    },
+                    url: '${pageContext.request.contextPath}/protocol/clinicalDiagnosis/reorder/${dissectionProtocol.id}',
+                    type: 'PUT',
+                    data: JSON.stringify(ordered),
+                    success: function(data) {
+                      console.info("Saved")
+                    },
+                    error: function() {
+                      console.info("Not saved");
+                    }
+                  });
+                }
+              })
+              .disableSelection();
+
+      var $tab_items = $("tbody.connectedSortable", $tabs).droppable({
+        accept: ".connectedSortable tr",
+        hoverClass: "ui-state-hover",
+
+        drop: function (event, ui) {
+          // Upuszczamy
+          var id = ui.draggable[0].id;
+          return true;
+        },
+        create: function( event, ui ) {
+          // tu mozna obliczyc pozycje
+          return true;
+        },
+        activate: function( event, ui ) {
+          // Zaczynamy ciagnoc
+          return true;
+        },
+        deactivate: function( event, ui ) {
+          // po upuszczeniu
+          return true;
+        },
+        out: function( event, ui ) {
+          // Wychodzimy poza dragable
+          return true;
+        },
+        over: function( event, ui ) {
+          return true;
+        }
+      });
+
+    });
+  </script>
 </dp:update>
 
 

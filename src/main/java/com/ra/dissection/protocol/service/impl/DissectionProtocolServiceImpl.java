@@ -1,8 +1,6 @@
 package com.ra.dissection.protocol.service.impl;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.LinkedHashMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.*;
 import com.ra.dissection.protocol.dao.protocol.*;
 import com.ra.dissection.protocol.dao.UserSearchMapper;
 import com.ra.dissection.protocol.dao.settings.DescriptionPointSourceMapper;
@@ -27,6 +25,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * @author lukaszkaleta
@@ -270,8 +270,30 @@ public class DissectionProtocolServiceImpl implements DissectionProtocolService 
         dissectionDiagnoseMapper.updateDissectionDiagnose(existingDissectionDiagnose);
     }
 
-    @Override
     @Transactional
+    @Override
+    public void reorderDissectionDiagnose(long protocolId, List<String> ordered) {
+        List<DissectionDiagnose> dissectionDiagnoses = dissectionDiagnoseMapper.selectDissectionDiagnoseForDissectionProtocol(protocolId);
+        if (dissectionDiagnoses.size() == ordered.size()) {
+            Map<Long, DissectionDiagnose> dissectionDiagnosesMap = Maps.uniqueIndex(dissectionDiagnoses, DissectionDiagnose::getId);
+            for(int sortIndex = 0; sortIndex < ordered.size(); sortIndex++) {
+                String dissectionDiagnoseId = ordered.get(sortIndex);
+                DissectionDiagnose dissectionDiagnose = dissectionDiagnosesMap.get(Long.parseLong(dissectionDiagnoseId));
+                if (dissectionDiagnose != null) {
+                    dissectionDiagnose.setSortIndex(sortIndex);
+                } else {
+                    log.error("Dissection diagnose <{}> does not exists in protocol <{}>", dissectionDiagnoseId, protocolId);
+                    return;
+                }
+            }
+            for(DissectionDiagnose dissectionDiagnose : dissectionDiagnosesMap.values()) {
+                dissectionDiagnoseMapper.updateDissectionDiagnoseSortIndex(dissectionDiagnose);
+            }
+        }
+    }
+
+    @Override
+    @Deprecated
     public void reorderDissectionDiagnose(long dissectionProtocolId, long dissectionDiagnoseId, OrderSwitch orderSwitch) {
         List<DissectionDiagnose> dissectionDiagnoses = dissectionDiagnoseMapper.selectDissectionDiagnoseForDissectionProtocol(dissectionProtocolId);
         if (dissectionDiagnoses == null || dissectionDiagnoses.size() < 1) {
