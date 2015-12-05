@@ -18,7 +18,7 @@
       <s:message code="dissection.protocol.medical.practice.analysis.save.success"/>
     </div>
   </c:if>
-  <form:form commandName="dissectionProtocol" action="/protocol/medicalPracticeAnalysis/save" class="form">
+  <form:form commandName="dissectionProtocol" action="${pageContext.request.contextPath}/protocol/medicalPracticeAnalysis/save" class="form">
     <form:hidden path="id"/>
     <s:message code="dissection.protocol.medical.practice.analysis.label"/>
     <form:textarea rows="22" path="medicalPracticeAnalysis" id="medicalPracticeAnalysis" cssClass="input-block-level"></form:textarea>

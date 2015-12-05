@@ -5,14 +5,17 @@ import com.ra.dissection.protocol.mvc.controller.ModelAttributeNames;
 import com.ra.dissection.protocol.service.DissectionProtocolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Rozpoznanie kliniczne
@@ -43,6 +46,14 @@ public class ClinicalDiagnosisController {
         } else {
             return load(Long.parseLong(protocolId));
         }
+    }
+
+    @RequestMapping(value="/reorder/{protocolId}", method= RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    public @ResponseBody String updateUserRole(
+            @RequestBody final List<String> data,
+            final HttpServletResponse response) {
+        return "id!";
     }
 
     @RequestMapping(value = "/load")

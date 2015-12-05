@@ -17,7 +17,7 @@
 
   <common:message-panel/>
 
-  <form:form commandName="dissectionProtocol" action="/protocol/clinicalDiagnosis/save" class="form-horizontal">
+  <form:form commandName="dissectionProtocol" action="${pageContext.request.contextPath}/protocol/clinicalDiagnosis/save" class="form-horizontal">
     <form:hidden path="id"/>
     <s:message code="dissection.protocol.clinical.daignosis.label"/>
     <form:textarea rows="22" path="clinicalDiagnosis" id="clinicalDiagnosis" cssClass="input-block-level"></form:textarea>

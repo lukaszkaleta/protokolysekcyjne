@@ -26,7 +26,7 @@
   </div>
 </c:if>
 
-<form:form commandName="basic" action="/protocol/basic/save" class="form-horizontal" id="basicDataForm">
+<form:form commandName="basic" action="${pageContext.request.contextPath}/protocol/basic/save" class="form-horizontal" id="basicDataForm">
 
   <form:errors element="span" cssClass="alert alert-error"/>
 

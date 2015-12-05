@@ -17,7 +17,7 @@
 
   <common:message-panel/>
 
-  <form:form commandName="histopathologicalExamination" action="/protocol/histopathologicalExamination/nameChange" class="form-horizontal">
+  <form:form commandName="histopathologicalExamination" action="${pageContext.request.contextPath}/protocol/histopathologicalExamination/nameChange" class="form-horizontal">
     <form:hidden path="dissectionProtocolId"/>
     <s:message code="dissection.protocol.histopathological.examination.type.label"/>
     <form:select path="name" id="typeSelect" cssClass="input-block-level" onchange="this.form.submit()">
@@ -28,7 +28,7 @@
     </form:select>
   </form:form>
 
-  <form:form commandName="histopathologicalExamination" action="/protocol/histopathologicalExamination/save" class="form">
+  <form:form commandName="histopathologicalExamination" action="${pageContext.request.contextPath}/protocol/histopathologicalExamination/save" class="form">
     <form:hidden path="name"/>
     <form:hidden path="id"/>
     <form:hidden path="dissectionProtocolId"/>

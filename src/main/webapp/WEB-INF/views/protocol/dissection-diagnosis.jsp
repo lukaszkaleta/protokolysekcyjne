@@ -83,7 +83,7 @@
     </c:otherwise>
   </c:choose>
 
-  <form:form action="/protocol/dissectionDiagnosis/${actionSuffix}" commandName="dissectionDiagnoseModel">
+  <form:form action="${pageContext.request.contextPath}/protocol/dissectionDiagnosis/${actionSuffix}" commandName="dissectionDiagnoseModel">
 
     <form:hidden path="dissectionDiagnose.id" id="id"/>
     <form:hidden path="dissectionDiagnose.dissectionProtocolId"/>
@@ -188,7 +188,7 @@
   </script>
 
 
-  <table class="table table-condensed table-bordered">
+  <table class="table table-condensed table-bordered" id='table-draggable'>
     <thead>
     <c:if test="${not empty dissectionProtocol.dissectionDiagnoseList}">
       <tr>
@@ -214,13 +214,12 @@
       </c:when>
       <c:otherwise></c:otherwise>
     </c:choose>
-    <tbody>
+    <tbody class="connectedSortable">
 
     <s:message code="dissection.diagnose.source.description.point.create" var="descriptionPointMissingLinkLabel"/>
     <s:message code="dissection.diagnose.description.point.edit" var="descriptionPointEditLinkLabel"/>
 
     <c:forEach items="${dissectionProtocol.dissectionDiagnoseList}" var="dissectionDiagnose" varStatus="dissectionDiagnoseStatus">
-
 
       <c:choose>
         <c:when test="${dissectionDiagnose.descriptionPointId == null}">
@@ -233,7 +232,7 @@
         </c:otherwise>
       </c:choose>
 
-      <tr>
+      <tr id="${dissectionDiagnose.id}">
         <td>
           <a class="undecorated" href='<c:url value="/protocol/dissectionDiagnosis/edit/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}"/>'>
             <c:out value="${dissectionDiagnose.name.latin}"/>

@@ -38,7 +38,7 @@
 
             <c:set var="dissectionDiagnoseOption" value="${dissectionDiagnoseOptions[dissectionDiagnoseSourceOption.id]}"/>
 
-            <form:form action="/protocol/dissectionDiagnosis/option/save" commandName="dissectionDiagnoseOption" id="${dissectionDiagnoseOption.id}">
+            <form:form action="${pageContext.request.contextPath}/protocol/dissectionDiagnosis/option/save" commandName="dissectionDiagnoseOption" id="${dissectionDiagnoseOption.id}">
 
               <input type="hidden" name="id" value="${dissectionDiagnoseOption.id}"/>
               <input type="hidden" name="dissectionDiagnoseId" value="${dissectionDiagnoseOption.dissectionDiagnoseId}"/>

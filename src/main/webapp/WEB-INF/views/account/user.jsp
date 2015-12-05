@@ -19,7 +19,7 @@
   </div>
 </c:if>
 
-<form:form commandName="passwordChangeModel" action="/account/user/changePassword" class="form-horizontal">
+<form:form commandName="passwordChangeModel" action="${pageContext.request.contextPath}/account/user/changePassword" class="form-horizontal">
   <c:set var="usernameErrors"><form:errors path="username"/></c:set>
   <c:set var="usernameErr" value="${not empty usernameErrors}"/>
   <c:set var="currentPasswordErrors"><form:errors path="currentPassword"/></c:set>

@@ -28,7 +28,7 @@
     <img width="100px" height="100px" src="${hospitalWardImageUrl}" alt="[IMAGE]">
   </div>
   <div class="span9">
-    <form:form commandName="hospitalWard" action="/settings/hospital/ward/save" class="form-horizontal">
+    <form:form commandName="hospitalWard" action="${pageContext.request.contextPath}/settings/hospital/ward/save" class="form-horizontal">
       <c:set var="nameErrors"><form:errors path="name"/></c:set>
       <c:set var="nameErr" value="${not empty nameErrors}"/>
 
@@ -87,7 +87,7 @@
     </form:form>
 
     <c:if test="${hospitalWard.id > 0 and hospitalWard.dissection}">
-      <form:form modelAttribute="uploadItem" method="post" enctype="multipart/form-data" action="/settings/hospital/ward/addImage" class="form-horizontal">
+      <form:form modelAttribute="uploadItem" method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/settings/hospital/ward/addImage" class="form-horizontal">
         <input type="hidden" name="id" value="${hospitalWard.id}">
         <div class="control-group">
           <form:label cssClass="control-label" path="file">

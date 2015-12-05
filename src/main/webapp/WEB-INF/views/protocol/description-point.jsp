@@ -15,7 +15,7 @@
 </head>
 <body>
 
-<form:form action="/protocol/description/update/${descriptionPoint.id}${'#'}${descriptionPoint.id}" commandName="descriptionPoint" class="form-horizontal">
+<form:form action="${pageContext.request.contextPath}/protocol/description/update/${descriptionPoint.id}${'#'}${descriptionPoint.id}" commandName="descriptionPoint" class="form-horizontal">
 
   <form:hidden path="id"/>
   <form:hidden path="dissectionProtocolId"/>

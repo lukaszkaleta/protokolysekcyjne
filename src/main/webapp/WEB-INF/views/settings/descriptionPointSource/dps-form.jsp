@@ -16,7 +16,7 @@
 <body>
 
 
-<form:form action="/settings/descriptionPointSource/save" commandName="descriptionPointSource" class="form-horizontal">
+<form:form action="${pageContext.request.contextPath}/settings/descriptionPointSource/save" commandName="descriptionPointSource" class="form-horizontal">
 
   <c:if test="${dissectionDiagnoseSource != null}">
     <s:message code="dissection.diagnose.source.latin"/>

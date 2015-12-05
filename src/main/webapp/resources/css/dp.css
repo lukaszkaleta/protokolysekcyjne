@@ -1,3 +1,7 @@
 .sortIndex {
     margin: 0 0.5em 0 1em;
 }
+
+.ui-state-hover {
+    color: #0044cc;
+}

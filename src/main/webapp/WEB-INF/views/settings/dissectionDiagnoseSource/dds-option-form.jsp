@@ -22,7 +22,7 @@
 </head>
 <body>
 
-<form:form action="/settings/dissectionDiagnoseSource/option/save" commandName="dissectionDiagnoseSourceOption">
+<form:form action="${pageContext.request.contextPath}/settings/dissectionDiagnoseSource/option/save" commandName="dissectionDiagnoseSourceOption">
 
   <form:hidden path="id" />
   <form:hidden path="dissectionDiagnoseSourceId" />

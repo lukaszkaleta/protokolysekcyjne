@@ -25,7 +25,7 @@
 </head>
 <body>
 
-<form:form action="/settings/dissectionDiagnoseSource/save" commandName="dissectionDiagnoseSource">
+<form:form action="${pageContext.request.contextPath}/settings/dissectionDiagnoseSource/save" commandName="dissectionDiagnoseSource">
 
   <form:hidden path="id" />
   <form:hidden path="descriptionPointSourceId" />

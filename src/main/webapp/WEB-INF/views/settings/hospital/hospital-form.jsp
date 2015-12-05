@@ -30,7 +30,7 @@
     <img width="100px" height="100px" src="${hospitalImageUrl}" alt="[IMAGE]">
   </div>
   <div class="span9">
-    <form:form commandName="hospital" action="/settings/hospital/save" class="form-horizontal">
+    <form:form commandName="hospital" action="${pageContext.request.contextPath}/settings/hospital/save" class="form-horizontal">
       <c:set var="nameErrors"><form:errors path="name"/></c:set>
       <c:set var="nameErr" value="${not empty nameErrors}"/>
       <form:hidden path="id"/>
@@ -76,7 +76,7 @@
     </form:form>
 
     <c:if test="${hospital.id > 0}">
-      <form:form modelAttribute="uploadItem" method="post" enctype="multipart/form-data" action="/settings/hospital/addImage" class="form-horizontal">
+      <form:form modelAttribute="uploadItem" method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/settings/hospital/addImage" class="form-horizontal">
         <input type="hidden" name="id" value="${hospital.id}">
         <div class="control-group">
           <form:label cssClass="control-label" path="file">

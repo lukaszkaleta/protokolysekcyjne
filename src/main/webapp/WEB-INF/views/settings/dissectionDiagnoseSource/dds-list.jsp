@@ -15,7 +15,7 @@
 
 <common:link url="/settings/dissectionDiagnoseSource/new" code="settings.dissection.diagnose.source.new.link" cssClass="pull-right btn btn-primary"/>
 
-<form:form action="/settings/dissectionDiagnoseSource/filter" commandName="dissectionDiagnoseSourceFilter" id="filterForm">
+<form:form action="${pageContext.request.contextPath}/settings/dissectionDiagnoseSource/filter" commandName="dissectionDiagnoseSourceFilter" id="filterForm">
   <form:hidden path="letter" id="letter"/>
   <div class="btn-toolbar">
     <div class="btn-group">

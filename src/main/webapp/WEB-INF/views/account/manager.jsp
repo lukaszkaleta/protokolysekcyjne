@@ -29,7 +29,7 @@
   </div>
 </c:if>
 
-<form:form class="form-inline" commandName="newUserAccount" action="/account/manager/add">
+<form:form class="form-inline" commandName="newUserAccount" action="${pageContext.request.contextPath}/account/manager/add">
   <s:message code="security.management.new.user"/>
   <s:message code="account.username" var="usernamePlaceholder"/>
   <form:input path="username" cssClass="input-large" placeholder="${usernamePlaceholder}"/>
@@ -43,13 +43,13 @@
 
 <c:forEach items="${userAccounts}" var="userAccount">
   <div class="bs-docs-example">
-    <form:form action="/account/manager/delete" commandName="existingUserAccount" cssClass="pull-right">
+    <form:form action="${pageContext.request.contextPath}/account/manager/delete" commandName="existingUserAccount" cssClass="pull-right">
       <input type="hidden" name="username" value="${userAccount.username}">
       <button type="submit" class="btn-mini btn-inverse">
         <s:message code="button.delete"/>
       </button>
     </form:form>
-      <form:form action="/account/manager/reset" commandName="existingUserAccount" cssClass="pull-right">
+      <form:form action="${pageContext.request.contextPath}/account/manager/reset" commandName="existingUserAccount" cssClass="pull-right">
         <input type="hidden" name="username" value="${userAccount.username}">
         <button type="submit" class="btn-mini">
           <s:message code="button.reset"/>

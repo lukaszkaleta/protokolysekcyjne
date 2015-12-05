@@ -26,7 +26,7 @@
 
 <dp:update updateDeniedMessageCode="description.provide.basic.data">
 
-  <form:form method="post" action="/protocol/description/save/${dissectionProtocolId}" modelAttribute="descriptionForm">
+  <form:form method="post" action="${pageContext.request.contextPath}/protocol/description/save/${dissectionProtocolId}" modelAttribute="descriptionForm">
     <c:forEach items="${descriptionForm.descriptionPoints}" var="descriptionPoint" varStatus="status">
       <c:set var="linkClass" value="${descriptionPoint.customization ? '' : 'undecorated'}"/>
       <div class="row-fluid" id="${descriptionPoint.id}">

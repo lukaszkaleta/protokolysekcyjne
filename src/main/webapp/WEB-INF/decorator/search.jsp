@@ -19,7 +19,7 @@
                 <legend><s:message code="search.form.legend"/></legend>
             </fieldset>
 
-            <form:form commandName="userSearch" action="/search/result/provide" class="form-horizontal">
+            <form:form commandName="userSearch" action="${pageContext.request.contextPath}/search/result/provide" class="form-horizontal">
                 <form:errors path="*" cssClass="alert alert-error" element="div" />
                 <form:hidden path="owner"/>
                 <form:hidden path="id"/>

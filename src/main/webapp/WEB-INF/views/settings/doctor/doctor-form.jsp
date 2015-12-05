@@ -23,7 +23,7 @@
 </head>
 <body>
 
-<form:form commandName="doctor" action="/settings/doctor/save" class="form-horizontal">
+<form:form commandName="doctor" action="${pageContext.request.contextPath}/settings/doctor/save" class="form-horizontal">
 
   <c:set var="firstNameErrors"><form:errors path="firstName"/></c:set>
   <c:set var="firstNameErr" value="${not empty firstNameErrors}"/>

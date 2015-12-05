@@ -25,7 +25,8 @@
 
   <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
   <script src='<c:url value="/resources/js/pdfobject.js" />'></script>
-  <script src='<c:url value="/resources/js/jquery.js" />'></script>
+  <script src='<c:url value="/resources/js/jquery-2.1.4.min.js" />'></script>
+  <script src='<c:url value="/resources/js/jquery-ui.min.js" />'></script>
   <script src='<c:url value="/resources/js/bootstrap-transition.js" />'></script>
   <script src='<c:url value="/resources/js/bootstrap-alert.js" />'></script>
   <script src='<c:url value="/resources/js/bootstrap-modal.js" />'></script>
@@ -43,13 +44,12 @@
   <script src='<c:url value="/resources/js/application.js" />'></script>
   <script src='<c:url value="/resources/js/bootstrap-datepicker.js" />'></script>
   <script src='<c:url value="/resources/js/bootstrap-typeahead.js" />'></script>
-  <script src='<c:url value="/resources/js/wysihtml5-0.3.0.min.js" />'></script>
   <script src='<c:url value="/resources/js/bootstrap-wysihtml5.js" />'></script>
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
   <script src='<c:url value="/resources/js/html5shiv.js" />'></script>
   <![endif]-->
-  <script src='<c:url value="/resources/js/angular.min.js" />'></script>
+  <script src='<c:url value="/resources/js/dnd-table.js" />'></script>
 
   <!-- Fav and touch icons -->
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href='<c:url value="/resources/ico/apple-touch-icon-144-precomposed.png" />'>
@@ -61,7 +61,6 @@
 </head>
 
 <body>
-
 
 <!-- Part 1: Wrap all page content here -->
 <div id="wrap">
