@@ -292,6 +292,7 @@ public class DissectionProtocolServiceImpl implements DissectionProtocolService 
             for(DissectionDiagnose dissectionDiagnose : dissectionDiagnosesMap.values()) {
                 dissectionDiagnoseMapper.updateDissectionDiagnoseSortIndex(dissectionDiagnose);
             }
+            reportService.updateStatus(protocolId, ReportStatus.NEED_ALL);
         }
     }
 
