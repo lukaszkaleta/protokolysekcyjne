@@ -2,7 +2,6 @@ package com.ra.dissection.protocol.service.report.components;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.draw.LineSeparator;
-import com.ra.dissection.protocol.service.report.components.ReportFonts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +27,7 @@ public class ReportSection {
     }
 
     public void addLineHeader(Document document, String header) throws DocumentException {
-        addSeparator(document);
+        addLineSeparator(document);
         Paragraph paragraph = new Paragraph(header, reportFonts.getBoldItalic(13));
         paragraph.setSpacingBefore(-4);
         paragraph.setSpacingAfter(0);
@@ -57,15 +56,26 @@ public class ReportSection {
         document.add(descriptionPointParagraph);
     }
 
+    public void addLineSeparator(Document document) throws DocumentException {
+        addLineSeparator(document, 11);
+    }
+
+    public void addLineSeparator(Document document, int space) throws DocumentException {
+        LineSeparator lineSeparator = new LineSeparator();
+        Paragraph paragraph = new Paragraph();
+        paragraph.setLeading(space);
+        paragraph.add(new Chunk(lineSeparator));
+        document.add(paragraph);
+    }
+
     public void addSeparator(Document document) throws DocumentException {
         addSeparator(document, 11);
     }
 
     public void addSeparator(Document document, int space) throws DocumentException {
-        LineSeparator lineSeparator = new LineSeparator();
         Paragraph paragraph = new Paragraph();
         paragraph.setLeading(space);
-        paragraph.add(new Chunk(lineSeparator));
+        paragraph.add(new Chunk("\n"));
         document.add(paragraph);
     }
 }

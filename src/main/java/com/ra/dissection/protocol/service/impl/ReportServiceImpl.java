@@ -1,5 +1,7 @@
 package com.ra.dissection.protocol.service.impl;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.ra.dissection.protocol.dao.protocol.DissectionProtocolMapper;
 import com.ra.dissection.protocol.dao.protocol.HospitalWardEntryMapper;
@@ -133,13 +135,25 @@ public class ReportServiceImpl implements ReportService {
         if (deathHospitalId != null) {
             deathHospital = hospitalMapper.selectHospital(deathHospitalId);
         }
+
         List<HospitalWardEntry> hospitalWardEntries = hospitalWardEntryMapper.selectProtocolHospitalWardEntries(dissectionProtocolId);
         if (CollectionUtils.isNotEmpty(hospitalWardEntries)) {
-            Set<Long> hospitalWardIds = new HashSet<Long>();
+            List<Long> hospitalWardIds = new ArrayList<>();
             for (HospitalWardEntry hospitalWardEntry : hospitalWardEntries) {
                 hospitalWardIds.add(hospitalWardEntry.getHospitalWardId());
             }
             deathHospitalWards = hospitalWardMapper.selectHospitalWardsByIds(hospitalWardIds.toArray(new Long[hospitalWardIds.size()]));
+            // We need to order them as they were added.
+            Map<Long, HospitalWard> hospitalWardsMap = Maps.uniqueIndex(deathHospitalWards, new Function<HospitalWard, Long>() {
+                @Override
+                public Long apply(HospitalWard hospitalWard) {
+                    return hospitalWard.getId();
+                }
+            });
+            deathHospitalWards.clear();
+            for(Long hospitalWardId : hospitalWardIds) {
+                deathHospitalWards.add(hospitalWardsMap.get(hospitalWardId));
+            }
         }
 
         dissectionProtocolReport.installBasicData(basicData, autopsyDoctor, deathHospital, deathHospitalWards);

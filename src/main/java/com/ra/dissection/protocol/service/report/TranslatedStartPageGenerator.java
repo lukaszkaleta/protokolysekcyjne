@@ -24,11 +24,12 @@ public class TranslatedStartPageGenerator extends StartPage implements ReportPag
     }
 
     @Override
-    protected Map<Long, String> getDissectionDiagnoseValues(DissectionProtocolReport dissectionProtocol) {
+    protected Map<Long, StartPage.DissectionDiagnoseValue> getDissectionDiagnoseValues(DissectionProtocolReport dissectionProtocol) {
         Map<Long, DissectionDiagnose> dissectionDiagnoses = dissectionProtocol.getDissectionDiagnoses();
-        Map<Long, String> dissectionDiagnoseLatin = new LinkedHashMap<Long, String>();
+        Map<Long, StartPage.DissectionDiagnoseValue> dissectionDiagnoseLatin = new LinkedHashMap<Long, DissectionDiagnoseValue>();
         for (Map.Entry<Long, DissectionDiagnose> dissectionDiagnoseEntry : dissectionDiagnoses.entrySet()) {
-            dissectionDiagnoseLatin.put(dissectionDiagnoseEntry.getKey(), ReportChunks.cleanPreposition(dissectionDiagnoseEntry.getValue().getName().getTranslated()));
+            DissectionDiagnose value = dissectionDiagnoseEntry.getValue();
+            dissectionDiagnoseLatin.put(dissectionDiagnoseEntry.getKey(), new StartPage.DissectionDiagnoseValue(value.isSpace(), value.getName().getTranslated()));
         }
         return dissectionDiagnoseLatin;
     }

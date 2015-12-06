@@ -26,11 +26,12 @@ public class LatinStartPageGenerator extends StartPage implements ReportPageGene
     }
 
     @Override
-    protected Map<Long, String> getDissectionDiagnoseValues(DissectionProtocolReport dissectionProtocol) {
+    protected Map<Long, StartPage.DissectionDiagnoseValue> getDissectionDiagnoseValues(DissectionProtocolReport dissectionProtocol) {
         Map<Long, DissectionDiagnose> dissectionDiagnoses = dissectionProtocol.getDissectionDiagnoses();
-        Map<Long, String> dissectionDiagnoseLatin = new LinkedHashMap<Long, String>();
+        Map<Long, StartPage.DissectionDiagnoseValue> dissectionDiagnoseLatin = new LinkedHashMap<Long, DissectionDiagnoseValue>();
         for (Map.Entry<Long, DissectionDiagnose> dissectionDiagnoseEntry : dissectionDiagnoses.entrySet()) {
-            dissectionDiagnoseLatin.put(dissectionDiagnoseEntry.getKey(), dissectionDiagnoseEntry.getValue().getName().getLatin());
+            DissectionDiagnose value = dissectionDiagnoseEntry.getValue();
+            dissectionDiagnoseLatin.put(dissectionDiagnoseEntry.getKey(), new StartPage.DissectionDiagnoseValue(value.isSpace(), value.getName().getLatin()));
         }
         return dissectionDiagnoseLatin;
     }

@@ -33,6 +33,9 @@ public class DissectionDiagnose implements Serializable {
 
     private int sortIndex;
 
+    /** Each dissection diagnose can have space assigned. If space is present after dissection diagnose on the report we will have space. */
+    private boolean space;
+
     public long getId() {
         return id;
     }
@@ -79,6 +82,14 @@ public class DissectionDiagnose implements Serializable {
 
     public void setSortIndex(int sortIndex) {
         this.sortIndex = sortIndex;
+    }
+
+    public boolean isSpace() {
+        return space;
+    }
+
+    public void setSpace(boolean space) {
+        this.space = space;
     }
 
     @Override

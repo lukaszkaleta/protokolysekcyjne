@@ -44,4 +44,6 @@ public interface DissectionDiagnoseMapper {
     List<DissectionDiagnose> selectDissectionDiagnosesForSource(long dissectionDiagnoseSourceId);
 
     List<Long> selectDissectionProtocolIdsForSource(long dissectionDiagnoseSourceId);
+
+    void updateDissectionDiagnoseSpace(DissectionDiagnose dissectionDiagnose);
 }

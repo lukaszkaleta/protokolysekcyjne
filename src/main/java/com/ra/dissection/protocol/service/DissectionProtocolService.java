@@ -192,4 +192,8 @@ public interface DissectionProtocolService {
     List<DissectionProtocol> getDissectionDiagnoseProtocols(long dissectionDiagnoseSourceId);
 
     void reorderDissectionDiagnose(long protocolId, List<String> ordered);
+
+    void addDissectionDiagnoseSpace(long dissectionDiagnoseId);
+
+    void removeDissectionDiagnoseSpace(long dissectionDiagnoseId);
 }

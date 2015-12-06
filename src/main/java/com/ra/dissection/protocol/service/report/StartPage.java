@@ -18,10 +18,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
 import java.util.*;
 import java.util.List;
 
@@ -40,7 +36,7 @@ abstract class StartPage implements ITextGenerator {
     @Autowired
     protected ReportPage reportPage;
 
-    protected abstract Map<Long, String> getDissectionDiagnoseValues(DissectionProtocolReport dissectionProtocol);
+    protected abstract Map<Long, StartPage.DissectionDiagnoseValue> getDissectionDiagnoseValues(DissectionProtocolReport dissectionProtocol);
 
     protected abstract Collection<String> getDissectionDiagnoseOptionValues(Long dissectionDiagnoseId, DissectionProtocolReport dissectionProtocol);
 
@@ -236,7 +232,7 @@ abstract class StartPage implements ITextGenerator {
     }
 
     private void addDeathHospital(Document document, DissectionProtocolReport dissectionProtocol) throws DocumentException {
-        reportSection.addSeparator(document, 3);
+        reportSection.addLineSeparator(document, 3);
         Hospital deathHospital = dissectionProtocol.getDeathHospital();
 
         PdfPTable table = new PdfPTable(2);
@@ -360,10 +356,13 @@ abstract class StartPage implements ITextGenerator {
     }
 
     public void addDissectionDiagnose(Document document, DissectionProtocolReport dissectionProtocol) throws DocumentException {
-        Map<Long, String> dissectionDiagnoseValues = getDissectionDiagnoseValues(dissectionProtocol);
+        Map<Long, DissectionDiagnoseValue> dissectionDiagnoseValues = getDissectionDiagnoseValues(dissectionProtocol);
         reportSection.addLineHeader(document, "Rozpoznania sekcyjne:");
-        for (Map.Entry<Long, String> dissectionDiagnoseEntry : dissectionDiagnoseValues.entrySet()) {
-            reportSection.addIndentContent(document, dissectionDiagnoseEntry.getValue(), -14);
+        for (Map.Entry<Long, DissectionDiagnoseValue> dissectionDiagnoseEntry : dissectionDiagnoseValues.entrySet()) {
+            reportSection.addIndentContent(document, dissectionDiagnoseEntry.getValue().text, -14);
+            if (dissectionDiagnoseEntry.getValue().space) {
+                reportSection.addSeparator(document);
+            }
             Collection<String> dissectionDiagnoseOptionValues = getDissectionDiagnoseOptionValues(dissectionDiagnoseEntry.getKey(), dissectionProtocol);
             if (!dissectionDiagnoseOptionValues.isEmpty()) {
                 com.itextpdf.text.List list = new com.itextpdf.text.List(com.itextpdf.text.List.UNORDERED);
@@ -374,6 +373,16 @@ abstract class StartPage implements ITextGenerator {
                 }
                 document.add(list);
             }
+        }
+    }
+
+    final class DissectionDiagnoseValue {
+        private final boolean space;
+        private final String text;
+
+        public DissectionDiagnoseValue(boolean space, String text) {
+            this.space = space;
+            this.text = text;
         }
     }
 }

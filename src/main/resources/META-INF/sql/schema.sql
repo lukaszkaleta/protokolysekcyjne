@@ -171,6 +171,7 @@ CREATE TABLE dp_dissection_diagnose (
   latin VARCHAR(1000) not null,
   translated VARCHAR(1000) not null,
   sort_index INT NOT NULL,
+  space BOOLEAN,
   FOREIGN KEY (dissection_protocol_id) REFERENCES dp_dissection_protocol(id),
   FOREIGN KEY (description_point_id) REFERENCES dp_description_point(id),
   FOREIGN KEY (dissection_diagnose_source_id) REFERENCES settings_dissection_diagnose_source(id)

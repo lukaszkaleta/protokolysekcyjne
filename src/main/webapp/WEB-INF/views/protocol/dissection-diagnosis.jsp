@@ -262,6 +262,20 @@
               <c:if test="${optionSourceAvailable[dissectionDiagnose.dissectionDiagnoseSourceId]}">
                 <li><a href='<c:url value="/protocol/dissectionDiagnosis/option/show/${dissectionDiagnose.id}"/>'><s:message code="dissection.diagnose.option.choose"/></a></li>
               </c:if>
+              <c:if test="${dissectionDiagnose.space}">
+                <li>
+                  <a href='<c:url value="/protocol/dissectionDiagnosis/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}/space/remove"/>' class="undecorated">
+                    <s:message code="dissection.diagnose.space.remove"/>
+                  </a>
+                </li>
+              </c:if>
+              <c:if test="${not dissectionDiagnose.space}">
+                <li>
+                  <a href='<c:url value="/protocol/dissectionDiagnosis/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}/space/add"/>' class="undecorated">
+                    <s:message code="dissection.diagnose.space.add"/>
+                  </a>
+                </li>
+              </c:if>
               <li class="divider"></li>
               <li>
                 <a href="#dissectionDiagnoseDelete${dissectionDiagnose.id}" role="button" class="${cssClass}" data-toggle="modal">
@@ -299,6 +313,20 @@
               <c:if test="${optionSourceAvailable[dissectionDiagnose.dissectionDiagnoseSourceId]}">
                 <li><a href='<c:url value="/protocol/dissectionDiagnosis/option/show/${dissectionDiagnose.id}"/>'><s:message code="dissection.diagnose.option.choose"/></a></li>
               </c:if>
+              <c:if test="${dissectionDiagnose.space}">
+                <li>
+                  <a href='<c:url value="/protocol/dissectionDiagnosis/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}/space/remove"/>' class="undecorated">
+                    <s:message code="dissection.diagnose.space.remove"/>
+                  </a>
+                </li>
+              </c:if>
+              <c:if test="${not dissectionDiagnose.space}">
+                <li>
+                  <a href='<c:url value="/protocol/dissectionDiagnosis/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}/space/add"/>' class="undecorated">
+                    <s:message code="dissection.diagnose.space.add"/>
+                  </a>
+                </li>
+              </c:if>
               <li class="divider"></li>
               <li>
                 <a href="#dissectionDiagnoseDelete${dissectionDiagnose.id}" role="button" class="${cssClass}" data-toggle="modal">
@@ -310,6 +338,12 @@
 
         </td>
       </tr>
+
+      <c:if test="${dissectionDiagnose.space}">
+        <tr>
+          <td colspan="2">&nbsp;</td>
+        </tr>
+      </c:if>
 
       <div id="dissectionDiagnoseDelete${dissectionDiagnose.id}" class="modal hide fade">
         <div class="modal-header">

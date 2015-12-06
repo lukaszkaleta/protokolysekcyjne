@@ -135,24 +135,41 @@ public class DissectionDiagnosisController {
         return "redirect:/settings/descriptionPointSource/edit/" + String.valueOf(descriptionPointSourceId);
     }
 
+    @RequestMapping("/{dissectionProtocolId}/{dissectionDiagnoseId}/space/add")
+    public ModelAndView spaceAdd(@PathVariable long dissectionProtocolId, @PathVariable long dissectionDiagnoseId) {
+        dissectionProtocolService.addDissectionDiagnoseSpace(dissectionDiagnoseId);
+        return show(dissectionProtocolId);
+    }
+
+    @RequestMapping("/{dissectionProtocolId}/{dissectionDiagnoseId}/space/remove")
+    public ModelAndView spaceRemove(@PathVariable long dissectionProtocolId, @PathVariable long dissectionDiagnoseId) {
+        dissectionProtocolService.removeDissectionDiagnoseSpace(dissectionDiagnoseId);
+        return show(dissectionProtocolId);
+    }
+
+
+    @Deprecated
     @RequestMapping("/down/{dissectionProtocolId}/{dissectionDiagnoseId}")
     public ModelAndView down(@PathVariable long dissectionProtocolId, @PathVariable long dissectionDiagnoseId) {
         dissectionProtocolService.reorderDissectionDiagnose(dissectionProtocolId, dissectionDiagnoseId, OrderSwitch.STEP_DOWN);
         return show(dissectionProtocolId);
     }
 
+    @Deprecated
     @RequestMapping("/up/{dissectionProtocolId}/{dissectionDiagnoseId}")
     public ModelAndView up(@PathVariable long dissectionProtocolId, @PathVariable long dissectionDiagnoseId) {
         dissectionProtocolService.reorderDissectionDiagnose(dissectionProtocolId, dissectionDiagnoseId, OrderSwitch.STEP_UP);
         return show(dissectionProtocolId);
     }
 
+    @Deprecated
     @RequestMapping("/fullDown/{dissectionProtocolId}/{dissectionDiagnoseId}")
     public ModelAndView fullDown(@PathVariable long dissectionProtocolId, @PathVariable long dissectionDiagnoseId) {
         dissectionProtocolService.reorderDissectionDiagnose(dissectionProtocolId, dissectionDiagnoseId, OrderSwitch.FULL_DOWN);
         return show(dissectionProtocolId);
     }
 
+    @Deprecated
     @RequestMapping("/fullUp/{dissectionProtocolId}/{dissectionDiagnoseId}")
     public ModelAndView fullUp(@PathVariable long dissectionProtocolId, @PathVariable long dissectionDiagnoseId) {
         dissectionProtocolService.reorderDissectionDiagnose(dissectionProtocolId, dissectionDiagnoseId, OrderSwitch.FULL_UP);

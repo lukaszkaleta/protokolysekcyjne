@@ -297,6 +297,16 @@ public class DissectionProtocolServiceImpl implements DissectionProtocolService 
     }
 
     @Override
+    public void addDissectionDiagnoseSpace(long dissectionDiagnoseId) {
+        updateDissectionDiagnoseSpace(dissectionDiagnoseId, true);
+    }
+
+    @Override
+    public void removeDissectionDiagnoseSpace(long dissectionDiagnoseId) {
+        updateDissectionDiagnoseSpace(dissectionDiagnoseId, false);
+    }
+
+    @Override
     @Deprecated
     public void reorderDissectionDiagnose(long dissectionProtocolId, long dissectionDiagnoseId, OrderSwitch orderSwitch) {
         List<DissectionDiagnose> dissectionDiagnoses = dissectionDiagnoseMapper.selectDissectionDiagnoseForDissectionProtocol(dissectionProtocolId);
@@ -397,7 +407,7 @@ public class DissectionProtocolServiceImpl implements DissectionProtocolService 
 
         dissectionDiagnose.setDissectionDiagnoseSourceId(dissectionDiagnoseSource.getId());
         Integer maxSortIndex = dissectionDiagnoseMapper.selectMaxSortIndexForNewDissectionDiagnose(dissectionProtocolId);
-        int newSortIndex = 1 + (maxSortIndex == null ? 0 : 1);
+        int newSortIndex = 1 + (maxSortIndex == null ? 0 : maxSortIndex);
         dissectionDiagnose.setSortIndex(newSortIndex);
         dissectionDiagnoseMapper.insertDissectionDiagnose(dissectionDiagnose);
 
@@ -679,6 +689,14 @@ public class DissectionProtocolServiceImpl implements DissectionProtocolService 
             throw new ProtocolNotExistsException(dissectionProtocolId);
         } else if (!id.equals(dissectionProtocolId)) {
             throw new IllegalStateException(String.format("Returned protocol id <%s> does not match requested id <%s>", String.valueOf(id), String.valueOf(dissectionProtocolId)));
+        }
+    }
+    private void updateDissectionDiagnoseSpace(long dissectionDiagnoseId, boolean space) {
+        DissectionDiagnose dissectionDiagnose = dissectionDiagnoseMapper.selectDissectionDiagnose(dissectionDiagnoseId);
+        if (dissectionDiagnose != null) {
+            dissectionDiagnose.setSpace(space);
+            dissectionDiagnoseMapper.updateDissectionDiagnoseSpace(dissectionDiagnose);
+            reportService.updateStatus(dissectionDiagnose.getDissectionProtocolId(), ReportStatus.NEED_ALL);
         }
     }
 }

@@ -10,18 +10,19 @@
     <result column="latin" property="name.latin"/>
     <result column="translated" property="name.translated"/>
     <result column="sort_index" property="sortIndex"/>
+    <result column="space" property="space"/>
   </resultMap>
 
   <sql id="selectDissectionDiagnoseSql">
-    select id, dissection_protocol_id, description_point_id, dissection_diagnose_source_id, latin, translated, sort_index from dp_dissection_diagnose
+    select id, dissection_protocol_id, description_point_id, dissection_diagnose_source_id, latin, translated, sort_index, space from dp_dissection_diagnose
   </sql>
 
   <insert id="insertDissectionDiagnose" useGeneratedKeys="true" parameterType="com.ra.dissection.protocol.domain.protocol.DissectionDiagnose" keyProperty="id" keyColumn="id">
-    insert into dp_dissection_diagnose (dissection_protocol_id, description_point_id, dissection_diagnose_source_id, latin, translated, sort_index) values (#{dissectionProtocolId}, #{descriptionPointId}, #{dissectionDiagnoseSourceId}, #{name.latin}, #{name.translated}, #{sortIndex})
+    insert into dp_dissection_diagnose (dissection_protocol_id, description_point_id, dissection_diagnose_source_id, latin, translated, sort_index, space) values (#{dissectionProtocolId}, #{descriptionPointId}, #{dissectionDiagnoseSourceId}, #{name.latin}, #{name.translated}, #{sortIndex}, #{space})
   </insert>
 
   <insert id="insertClone">
-    insert into dp_dissection_diagnose (dissection_protocol_id, dissection_diagnose_source_id, latin, translated, sort_index) select #{targetDissectionProtocolId}, dissection_diagnose_source_id, latin, translated, sort_index from dp_dissection_diagnose where dissection_protocol_id = #{sourceDissectionProtocolId}
+    insert into dp_dissection_diagnose (dissection_protocol_id, dissection_diagnose_source_id, latin, translated, sort_index, space) select #{targetDissectionProtocolId}, dissection_diagnose_source_id, latin, translated, sort_index, space from dp_dissection_diagnose where dissection_protocol_id = #{sourceDissectionProtocolId}
   </insert>
 
   <update id="updateDissectionDiagnose" parameterType="com.ra.dissection.protocol.domain.protocol.DissectionDiagnose">
@@ -30,6 +31,10 @@
 
   <update id="updateDissectionDiagnoseSortIndex" parameterType="java.util.Map">
     update dp_dissection_diagnose set sort_index = #{sortIndex} where id = #{id}
+  </update>
+
+  <update id="updateDissectionDiagnoseSpace" parameterType="com.ra.dissection.protocol.domain.protocol.DissectionDiagnose">
+    update dp_dissection_diagnose set space = #{space} where id = #{id}
   </update>
 
   <update id="updateDeletedDescriptionPoint" parameterType="long">
