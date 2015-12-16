@@ -28,14 +28,16 @@
 
   <form:form method="post" action="${pageContext.request.contextPath}/protocol/description/save/${dissectionProtocolId}" modelAttribute="descriptionForm">
     <c:forEach items="${descriptionForm.descriptionPoints}" var="descriptionPoint" varStatus="status">
-      <c:set var="linkClass" value="${descriptionPoint.customization ? '' : 'undecorated'}"/>
-      <div class="row-fluid" id="${descriptionPoint.id}">
+      <div class="row-fluid">
         <div class="span1">
-          <span class="badge badge-info">
+          <div class="badge badge-info">
             ${descriptionPoint.descriptionPointSource.point}. ${descriptionPoint.descriptionPointSource.digitPosition}
-          </span>
+          </div>
+          <div class="badge" data-toggle="tooltip" data-placement="left" title='<s:message code="protocol.description.point.type.${descriptionPoint.descriptionPointSource.type}${descriptionPoint.customization ? '.customized' : ''}"/>'>
+            <s:message code="protocol.description.point.type.key.${descriptionPoint.descriptionPointSource.type}${descriptionPoint.customization ? '.customized' : ''}"/>
+          </div>
         </div>
-        <div class="span8">
+        <div class="span7">
           <form:hidden path="descriptionPoints[${status.index}].id"/>
           <form:hidden path="descriptionPoints[${status.index}].dissectionProtocolId"/>
           <form:hidden path="descriptionPoints[${status.index}].index"/>
@@ -44,19 +46,29 @@
           <form:hidden path="descriptionPoints[${status.index}].descriptionPointSource.type"/>
           <form:hidden path="descriptionPoints[${status.index}].descriptionPointSource.point"/>
           <form:hidden path="descriptionPoints[${status.index}].descriptionPointSource.position"/>
-          <form:textarea rows="2" cols="50" path="descriptionPoints[${status.index}].descriptionPointSource.description" cssStyle="width: 100%"/>
+          <form:textarea rows="2" cols="50" path="descriptionPoints[${status.index}].descriptionPointSource.description" cssStyle="width: 100%" cssClass="elastic-text" onclick="resize(this)"/>
           <form:errors path="descriptionPoints[${status.index}].descriptionPointSource.description" cssClass="help-inline alert-error" element="span"/>
         </div>
         <div class="span1">
-          <a class="${linkClass}" href='<c:url value="/protocol/description/point/${descriptionPoint.id}"/>'>
+          <a href='<c:url value="/protocol/description/point/${descriptionPoint.id}"/>'>
             <s:message code="button.edit"/>
           </a>
+          <div  id="${descriptionPoint.id}" style="position: absolute; margin-top: -6em"></div>
+        </div>
+        <div class="span1">
+          <div  id="${descriptionPoint.id}" style="position: absolute; margin-top: -6em"></div>
         </div>
       </div>
     </c:forEach>
     <input value='<s:message code="button.save"/>' type="submit" class="btn btn-primary" style="position: fixed; bottom: 3em; right: 3em">
 
   </form:form>
+
+  <script type="application/javascript">
+    function resize(textarea) {
+      $(textarea).elastic();
+    }
+  </script>
 
 </dp:update>
 </body>

@@ -23,10 +23,10 @@
   <link href='<c:url value="/resources/css/bootstrap-wysihtml5.css" />' rel="stylesheet">
   <link href='<c:url value="/resources/css/dp.css" />' rel="stylesheet">
 
-  <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
   <script src='<c:url value="/resources/js/pdfobject.js" />'></script>
   <script src='<c:url value="/resources/js/jquery-2.1.4.min.js" />'></script>
   <script src='<c:url value="/resources/js/jquery-ui.min.js" />'></script>
+  <script src='<c:url value="/resources/js/jquery-elastic-1.6.10/jquery.elastic.source.js" />'></script>
   <script src='<c:url value="/resources/js/bootstrap-transition.js" />'></script>
   <script src='<c:url value="/resources/js/bootstrap-alert.js" />'></script>
   <script src='<c:url value="/resources/js/bootstrap-modal.js" />'></script>
