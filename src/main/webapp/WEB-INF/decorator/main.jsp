@@ -126,7 +126,7 @@
               </a>
               <ul class="dropdown-menu">
                 <li>
-                  <a href='<c:url value="/j_spring_security_logout" />'>
+                  <a href='<c:url value="/logout" />'>
                     <s:message code="logout.link"/>
                   </a>
                 </li>

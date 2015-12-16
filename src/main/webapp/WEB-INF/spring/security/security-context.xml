@@ -18,11 +18,14 @@
     <form-login login-page="/security/login"
                 default-target-url="/"
                 authentication-failure-url="/security/login-fails" login-processing-url="" />
-    <logout logout-success-url="/security/logout" logout-url="/j_spring_security_logout" delete-cookies="JSESSIONID" />
-      <csrf disabled="true"/>
-    <session-management invalid-session-url="/security/invalid-session">
-      <concurrency-control max-sessions="1000" error-if-maximum-exceeded="false" expired-url="/security/expired"  />
-    </session-management>
+      <!--
+      <session-management invalid-session-url="/security/invalid-session">
+          <concurrency-control max-sessions="1000" error-if-maximum-exceeded="false" expired-url="/security/expired"   />
+      </session-management>
+      -->
+    <logout logout-success-url="/security/logout"/>
+    <csrf disabled="true"/>
+
   </http>
 
   <authentication-manager>
