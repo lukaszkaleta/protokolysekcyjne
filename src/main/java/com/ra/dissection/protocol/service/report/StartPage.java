@@ -360,9 +360,6 @@ abstract class StartPage implements ITextGenerator {
         reportSection.addLineHeader(document, "Rozpoznania sekcyjne:");
         for (Map.Entry<Long, DissectionDiagnoseValue> dissectionDiagnoseEntry : dissectionDiagnoseValues.entrySet()) {
             reportSection.addIndentContent(document, dissectionDiagnoseEntry.getValue().text, -14);
-            if (dissectionDiagnoseEntry.getValue().space) {
-                reportSection.addSeparator(document);
-            }
             Collection<String> dissectionDiagnoseOptionValues = getDissectionDiagnoseOptionValues(dissectionDiagnoseEntry.getKey(), dissectionProtocol);
             if (!dissectionDiagnoseOptionValues.isEmpty()) {
                 com.itextpdf.text.List list = new com.itextpdf.text.List(com.itextpdf.text.List.UNORDERED);
@@ -372,6 +369,9 @@ abstract class StartPage implements ITextGenerator {
                     list.add(new ListItem(dissectionDiagnoseOptionName, reportFonts.getNormal(10)));
                 }
                 document.add(list);
+            }
+            if (dissectionDiagnoseEntry.getValue().space) {
+                reportSection.addSeparator(document);
             }
         }
     }
