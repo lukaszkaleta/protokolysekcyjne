@@ -46,7 +46,7 @@
           <form:hidden path="descriptionPoints[${status.index}].descriptionPointSource.type"/>
           <form:hidden path="descriptionPoints[${status.index}].descriptionPointSource.point"/>
           <form:hidden path="descriptionPoints[${status.index}].descriptionPointSource.position"/>
-          <form:textarea rows="2" cols="50" path="descriptionPoints[${status.index}].descriptionPointSource.description" cssStyle="width: 100%" cssClass="elastic-text" onclick="resize(this)"/>
+          <form:textarea rows="2" cols="50" path="descriptionPoints[${status.index}].descriptionPointSource.description" cssStyle="width: 100%" cssClass="elastic-text"/>
           <form:errors path="descriptionPoints[${status.index}].descriptionPointSource.description" cssClass="help-inline alert-error" element="span"/>
         </div>
         <div class="span1">
@@ -65,9 +65,7 @@
   </form:form>
 
   <script type="application/javascript">
-    function resize(textarea) {
-      $(textarea).elastic();
-    }
+    $('.elastic-text').elastic();
   </script>
 
 </dp:update>
