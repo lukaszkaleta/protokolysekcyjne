@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Context>
     <Resource name="jdbc/dissection-protocol-DS"
-              url="jdbc:mysql://localhost:3306/dissection_protocol_db?characterEncoding=UTF-8"
+              url="jdbc:mysql://localhost:3306/protokolysekcyjne_20160304?useUnicode=true&amp;characterEncoding=UTF-8"
               driverClassName="com.mysql.jdbc.Driver"
               username="lkdp"
               password="X0KaCzKa0"

@@ -135,7 +135,7 @@
                     <s:message code="navigation.main.security.account"/>
                   </a>
                 </li>
-                <sec:authorize access="hasRole('ADMIN')">
+                <sec:authorize access="hasAuthority('ADMIN')">
                   <li>
                     <a href='<c:url value="/account/manager/show" />'>
                       <s:message code="navigation.main.security.manager"/>

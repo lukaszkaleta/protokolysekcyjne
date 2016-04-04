@@ -2,12 +2,12 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="common" tagdir="/WEB-INF/tags/common" %>
-<%@ page session="false" %>
+<%@ page pageEncoding="UTF-8" session="false" %>
 
 <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <title><sitemesh:write property='title'/></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -86,7 +86,7 @@
 <script src='<c:url value="/resources/js/bootstrap-button.js" />'></script>
 <script src='<c:url value="/resources/js/bootstrap-collapse.js" />'></script>
 <script src='<c:url value="/resources/js/bootstrap-carousel.js" />'></script>
-<script src='<c:url value="/resources/js/bootstrap-typeahead.jsf" />'></script>
+<script src='<c:url value="/resources/js/bootstrap-typeahead.js" />'></script>
 <script src='<c:url value="/resources/js/bootstrap-affix.js" />'></script>
 <script src='<c:url value="/resources/js/holder/holder.js" />'></script>
 <script src='<c:url value="/resources/js/google-code-prettify/prettify.js" />'></script>
