@@ -54,7 +54,16 @@ public class ContentPagesGenerator implements ReportPageGenerator, ITextGenerato
 
     @Override
     public void install(DissectionProtocolReport dissectionProtocol, PdfWriter instance) {
-        String header = String.format("Sekcja zw\u0142ok %s z dnia %s r. - %s", dissectionProtocol.getNumber(), ReportChunks.getDate(dissectionProtocol.getBasicData().getAutopsy().getDate()), dissectionProtocol.getBasicData().getPatient().getNiceName());
+        String age = "";
+        if (dissectionProtocol instanceof AdultReport) {
+            age = "lat " + ((AdultReport) dissectionProtocol).getYearAge();
+        }
+        String header = String.format("Sekcja zw\u0142ok %s z dnia %s r. - %s %s",
+                dissectionProtocol.getNumber(),
+                ReportChunks.getDate(dissectionProtocol.getBasicData().getAutopsy().getDate()),
+                dissectionProtocol.getBasicData().getPatient().getNiceName(),
+                age
+        );
         instance.setPageEvent(new HeaderFooter(header));
         instance.setBoxSize("art", new Rectangle(36, 54, 549, 815));
     }
