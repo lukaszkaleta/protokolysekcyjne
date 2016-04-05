@@ -84,6 +84,11 @@ public class DissectionDiagnoseSourceController {
             modelAndView.addAllObjects(bindingResult.getModel());
             return modelAndView;
         }
+
+        // Trim spaces so sorting is not broken.
+        name.setLatin(name.getLatin().trim());
+        name.setTranslated(name.getTranslated().trim());
+
         long id = dissectionDiagnoseSource.getId();
         if (id <= 0) {
             dissectionDiagnoseSourceService.create(dissectionDiagnoseSource);
