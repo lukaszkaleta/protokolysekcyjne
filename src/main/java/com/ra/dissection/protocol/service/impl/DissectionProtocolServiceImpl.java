@@ -297,13 +297,23 @@ public class DissectionProtocolServiceImpl implements DissectionProtocolService 
     }
 
     @Override
-    public void addDissectionDiagnoseSpace(long dissectionDiagnoseId) {
-        updateDissectionDiagnoseSpace(dissectionDiagnoseId, true);
+    public void addDissectionDiagnoseSpaceBelow(long dissectionDiagnoseId) {
+        updateDissectionDiagnoseSpaceBelow(dissectionDiagnoseId, true);
     }
 
     @Override
-    public void removeDissectionDiagnoseSpace(long dissectionDiagnoseId) {
-        updateDissectionDiagnoseSpace(dissectionDiagnoseId, false);
+    public void removeDissectionDiagnoseSpaceBelow(long dissectionDiagnoseId) {
+        updateDissectionDiagnoseSpaceBelow(dissectionDiagnoseId, false);
+    }
+
+    @Override
+    public void addDissectionDiagnoseSpaceAbove(long dissectionDiagnoseId) {
+        updateDissectionDiagnoseSpaceAbove(dissectionDiagnoseId, true);
+    }
+
+    @Override
+    public void removeDissectionDiagnoseSpaceAbove(long dissectionDiagnoseId) {
+        updateDissectionDiagnoseSpaceAbove(dissectionDiagnoseId, false);
     }
 
     @Override
@@ -691,11 +701,22 @@ public class DissectionProtocolServiceImpl implements DissectionProtocolService 
             throw new IllegalStateException(String.format("Returned protocol id <%s> does not match requested id <%s>", String.valueOf(id), String.valueOf(dissectionProtocolId)));
         }
     }
-    private void updateDissectionDiagnoseSpace(long dissectionDiagnoseId, boolean space) {
+
+
+    private void updateDissectionDiagnoseSpaceAbove(long dissectionDiagnoseId, boolean spaceAbove) {
         DissectionDiagnose dissectionDiagnose = dissectionDiagnoseMapper.selectDissectionDiagnose(dissectionDiagnoseId);
         if (dissectionDiagnose != null) {
-            dissectionDiagnose.setSpace(space);
-            dissectionDiagnoseMapper.updateDissectionDiagnoseSpace(dissectionDiagnose);
+            dissectionDiagnose.setSpaceAbove(spaceAbove);
+            dissectionDiagnoseMapper.updateDissectionDiagnoseSpaceAbove(dissectionDiagnose);
+            reportService.updateStatus(dissectionDiagnose.getDissectionProtocolId(), ReportStatus.NEED_ALL);
+        }
+    }
+
+    private void updateDissectionDiagnoseSpaceBelow(long dissectionDiagnoseId, boolean spaceBelow) {
+        DissectionDiagnose dissectionDiagnose = dissectionDiagnoseMapper.selectDissectionDiagnose(dissectionDiagnoseId);
+        if (dissectionDiagnose != null) {
+            dissectionDiagnose.setSpaceBelow(spaceBelow);
+            dissectionDiagnoseMapper.updateDissectionDiagnoseSpaceBelow(dissectionDiagnose);
             reportService.updateStatus(dissectionDiagnose.getDissectionProtocolId(), ReportStatus.NEED_ALL);
         }
     }

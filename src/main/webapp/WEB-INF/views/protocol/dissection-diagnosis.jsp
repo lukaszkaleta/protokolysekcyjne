@@ -232,6 +232,12 @@
         </c:otherwise>
       </c:choose>
 
+      <c:if test="${dissectionDiagnose.spaceAbove}">
+        <tr>
+          <td colspan="2">&nbsp;</td>
+        </tr>
+      </c:if>
+
       <tr id="${dissectionDiagnose.id}">
         <td>
           <a class="undecorated" href='<c:url value="/protocol/dissectionDiagnosis/edit/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}"/>'>
@@ -262,20 +268,38 @@
               <c:if test="${optionSourceAvailable[dissectionDiagnose.dissectionDiagnoseSourceId]}">
                 <li><a href='<c:url value="/protocol/dissectionDiagnosis/option/show/${dissectionDiagnose.id}"/>'><s:message code="dissection.diagnose.option.choose"/></a></li>
               </c:if>
-              <c:if test="${dissectionDiagnose.space}">
+
+              <!-- SPACE -->
+              <c:if test="${dissectionDiagnose.spaceAbove}">
                 <li>
-                  <a href='<c:url value="/protocol/dissectionDiagnosis/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}/space/remove"/>' class="undecorated">
-                    <s:message code="dissection.diagnose.space.remove"/>
+                  <a href='<c:url value="/protocol/dissectionDiagnosis/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}/space/remove/above"/>' class="undecorated">
+                    <s:message code="dissection.diagnose.space.above.remove"/>
                   </a>
                 </li>
               </c:if>
-              <c:if test="${not dissectionDiagnose.space}">
+              <c:if test="${not dissectionDiagnose.spaceAbove}">
                 <li>
-                  <a href='<c:url value="/protocol/dissectionDiagnosis/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}/space/add"/>' class="undecorated">
-                    <s:message code="dissection.diagnose.space.add"/>
+                  <a href='<c:url value="/protocol/dissectionDiagnosis/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}/space/add/above"/>' class="undecorated">
+                    <s:message code="dissection.diagnose.space.above.add"/>
                   </a>
                 </li>
               </c:if>
+
+              <c:if test="${dissectionDiagnose.spaceBelow}">
+                <li>
+                  <a href='<c:url value="/protocol/dissectionDiagnosis/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}/space/remove/below"/>' class="undecorated">
+                    <s:message code="dissection.diagnose.space.below.remove"/>
+                  </a>
+                </li>
+              </c:if>
+              <c:if test="${not dissectionDiagnose.spaceBelow}">
+                <li>
+                  <a href='<c:url value="/protocol/dissectionDiagnosis/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}/space/add/below"/>' class="undecorated">
+                    <s:message code="dissection.diagnose.space.below.add"/>
+                  </a>
+                </li>
+              </c:if>
+
               <li class="divider"></li>
               <li>
                 <a href="#dissectionDiagnoseDelete${dissectionDiagnose.id}" role="button" class="${cssClass}" data-toggle="modal">
@@ -313,20 +337,38 @@
               <c:if test="${optionSourceAvailable[dissectionDiagnose.dissectionDiagnoseSourceId]}">
                 <li><a href='<c:url value="/protocol/dissectionDiagnosis/option/show/${dissectionDiagnose.id}"/>'><s:message code="dissection.diagnose.option.choose"/></a></li>
               </c:if>
-              <c:if test="${dissectionDiagnose.space}">
+
+              <!-- SPACE -->
+              <c:if test="${dissectionDiagnose.spaceAbove}">
                 <li>
-                  <a href='<c:url value="/protocol/dissectionDiagnosis/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}/space/remove"/>' class="undecorated">
-                    <s:message code="dissection.diagnose.space.remove"/>
+                  <a href='<c:url value="/protocol/dissectionDiagnosis/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}/space/remove/above"/>' class="undecorated">
+                    <s:message code="dissection.diagnose.space.above.remove"/>
                   </a>
                 </li>
               </c:if>
-              <c:if test="${not dissectionDiagnose.space}">
+              <c:if test="${not dissectionDiagnose.spaceAbove}">
                 <li>
-                  <a href='<c:url value="/protocol/dissectionDiagnosis/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}/space/add"/>' class="undecorated">
-                    <s:message code="dissection.diagnose.space.add"/>
+                  <a href='<c:url value="/protocol/dissectionDiagnosis/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}/space/add/above"/>' class="undecorated">
+                    <s:message code="dissection.diagnose.space.above.add"/>
                   </a>
                 </li>
               </c:if>
+
+              <c:if test="${dissectionDiagnose.spaceBelow}">
+                <li>
+                  <a href='<c:url value="/protocol/dissectionDiagnosis/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}/space/remove/below"/>' class="undecorated">
+                    <s:message code="dissection.diagnose.space.below.remove"/>
+                  </a>
+                </li>
+              </c:if>
+              <c:if test="${not dissectionDiagnose.spaceBelow}">
+                <li>
+                  <a href='<c:url value="/protocol/dissectionDiagnosis/${dissectionDiagnose.dissectionProtocolId}/${dissectionDiagnose.id}/space/add/below"/>' class="undecorated">
+                    <s:message code="dissection.diagnose.space.below.add"/>
+                  </a>
+                </li>
+              </c:if>
+
               <li class="divider"></li>
               <li>
                 <a href="#dissectionDiagnoseDelete${dissectionDiagnose.id}" role="button" class="${cssClass}" data-toggle="modal">
@@ -339,7 +381,7 @@
         </td>
       </tr>
 
-      <c:if test="${dissectionDiagnose.space}">
+      <c:if test="${dissectionDiagnose.spaceBelow}">
         <tr>
           <td colspan="2">&nbsp;</td>
         </tr>

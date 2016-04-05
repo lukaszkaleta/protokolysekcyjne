@@ -193,7 +193,11 @@ public interface DissectionProtocolService {
 
     void reorderDissectionDiagnose(long protocolId, List<String> ordered);
 
-    void addDissectionDiagnoseSpace(long dissectionDiagnoseId);
+    void addDissectionDiagnoseSpaceBelow(long dissectionDiagnoseId);
 
-    void removeDissectionDiagnoseSpace(long dissectionDiagnoseId);
+    void removeDissectionDiagnoseSpaceBelow(long dissectionDiagnoseId);
+
+    void addDissectionDiagnoseSpaceAbove(long dissectionDiagnoseId);
+
+    void removeDissectionDiagnoseSpaceAbove(long dissectionDiagnoseId);
 }

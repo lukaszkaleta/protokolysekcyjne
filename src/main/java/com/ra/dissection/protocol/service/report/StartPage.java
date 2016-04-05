@@ -359,6 +359,9 @@ abstract class StartPage implements ITextGenerator {
         Map<Long, DissectionDiagnoseValue> dissectionDiagnoseValues = getDissectionDiagnoseValues(dissectionProtocol);
         reportSection.addLineHeader(document, "Rozpoznania sekcyjne:");
         for (Map.Entry<Long, DissectionDiagnoseValue> dissectionDiagnoseEntry : dissectionDiagnoseValues.entrySet()) {
+            if (dissectionDiagnoseEntry.getValue().spaceAbove) {
+                reportSection.addSeparator(document);
+            }
             reportSection.addIndentContent(document, dissectionDiagnoseEntry.getValue().text, -14);
             Collection<String> dissectionDiagnoseOptionValues = getDissectionDiagnoseOptionValues(dissectionDiagnoseEntry.getKey(), dissectionProtocol);
             if (!dissectionDiagnoseOptionValues.isEmpty()) {
@@ -370,18 +373,20 @@ abstract class StartPage implements ITextGenerator {
                 }
                 document.add(list);
             }
-            if (dissectionDiagnoseEntry.getValue().space) {
+            if (dissectionDiagnoseEntry.getValue().spaceBelow) {
                 reportSection.addSeparator(document);
             }
         }
     }
 
     final class DissectionDiagnoseValue {
-        private final boolean space;
+        private final boolean spaceBelow;
+        private final boolean spaceAbove;
         private final String text;
 
-        public DissectionDiagnoseValue(boolean space, String text) {
-            this.space = space;
+        public DissectionDiagnoseValue(boolean spaceAbove, boolean spaceBelow, String text) {
+            this.spaceAbove = spaceAbove;
+            this.spaceBelow = spaceBelow;
             this.text = text;
         }
     }

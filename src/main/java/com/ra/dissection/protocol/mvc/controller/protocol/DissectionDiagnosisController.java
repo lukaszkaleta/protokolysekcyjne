@@ -1,7 +1,5 @@
 package com.ra.dissection.protocol.mvc.controller.protocol;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
 import com.google.common.collect.Multimap;
 import com.ra.dissection.protocol.domain.common.OrderSwitch;
 import com.ra.dissection.protocol.domain.protocol.DescriptionPoint;
@@ -16,7 +14,6 @@ import com.ra.dissection.protocol.mvc.controller.protocol.support.DissectionDiag
 import com.ra.dissection.protocol.mvc.controller.settings.DescriptionPointSourceController;
 import com.ra.dissection.protocol.mvc.validation.protocol.DissectionDiagnoseOptionValidator;
 import com.ra.dissection.protocol.mvc.validation.protocol.DissectionDiagnoseValidator;
-import com.ra.dissection.protocol.mvc.validation.settings.DissectionDiagnoseNameValidator;
 import com.ra.dissection.protocol.service.DissectionDiagnoseSourceService;
 import com.ra.dissection.protocol.service.DissectionProtocolService;
 import org.slf4j.Logger;
@@ -28,7 +25,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
@@ -135,18 +131,29 @@ public class DissectionDiagnosisController {
         return "redirect:/settings/descriptionPointSource/edit/" + String.valueOf(descriptionPointSourceId);
     }
 
-    @RequestMapping("/{dissectionProtocolId}/{dissectionDiagnoseId}/space/add")
-    public ModelAndView spaceAdd(@PathVariable long dissectionProtocolId, @PathVariable long dissectionDiagnoseId) {
-        dissectionProtocolService.addDissectionDiagnoseSpace(dissectionDiagnoseId);
+    @RequestMapping("/{dissectionProtocolId}/{dissectionDiagnoseId}/space/add/below")
+    public ModelAndView spaceAddBelow(@PathVariable long dissectionProtocolId, @PathVariable long dissectionDiagnoseId) {
+        dissectionProtocolService.addDissectionDiagnoseSpaceBelow(dissectionDiagnoseId);
         return show(dissectionProtocolId);
     }
 
-    @RequestMapping("/{dissectionProtocolId}/{dissectionDiagnoseId}/space/remove")
-    public ModelAndView spaceRemove(@PathVariable long dissectionProtocolId, @PathVariable long dissectionDiagnoseId) {
-        dissectionProtocolService.removeDissectionDiagnoseSpace(dissectionDiagnoseId);
+    @RequestMapping("/{dissectionProtocolId}/{dissectionDiagnoseId}/space/remove/below")
+    public ModelAndView spaceRemoveBelow(@PathVariable long dissectionProtocolId, @PathVariable long dissectionDiagnoseId) {
+        dissectionProtocolService.removeDissectionDiagnoseSpaceBelow(dissectionDiagnoseId);
         return show(dissectionProtocolId);
     }
 
+    @RequestMapping("/{dissectionProtocolId}/{dissectionDiagnoseId}/space/add/above")
+    public ModelAndView spaceAddAbove(@PathVariable long dissectionProtocolId, @PathVariable long dissectionDiagnoseId) {
+        dissectionProtocolService.addDissectionDiagnoseSpaceAbove(dissectionDiagnoseId);
+        return show(dissectionProtocolId);
+    }
+
+    @RequestMapping("/{dissectionProtocolId}/{dissectionDiagnoseId}/space/remove/above")
+    public ModelAndView spaceRemoveAbove(@PathVariable long dissectionProtocolId, @PathVariable long dissectionDiagnoseId) {
+        dissectionProtocolService.removeDissectionDiagnoseSpaceAbove(dissectionDiagnoseId);
+        return show(dissectionProtocolId);
+    }
 
     @Deprecated
     @RequestMapping("/down/{dissectionProtocolId}/{dissectionDiagnoseId}")

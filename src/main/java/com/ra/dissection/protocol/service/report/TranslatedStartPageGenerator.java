@@ -5,7 +5,6 @@ import com.google.common.collect.Collections2;
 import com.ra.dissection.protocol.domain.protocol.DissectionDiagnose;
 import com.ra.dissection.protocol.domain.protocol.DissectionDiagnoseOption;
 import com.ra.dissection.protocol.domain.report.DissectionProtocolReport;
-import com.ra.dissection.protocol.domain.settings.DissectionDiagnoseName;
 import com.ra.dissection.protocol.service.report.components.ReportChunks;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +28,10 @@ public class TranslatedStartPageGenerator extends StartPage implements ReportPag
         Map<Long, StartPage.DissectionDiagnoseValue> dissectionDiagnoseLatin = new LinkedHashMap<Long, DissectionDiagnoseValue>();
         for (Map.Entry<Long, DissectionDiagnose> dissectionDiagnoseEntry : dissectionDiagnoses.entrySet()) {
             DissectionDiagnose value = dissectionDiagnoseEntry.getValue();
-            dissectionDiagnoseLatin.put(dissectionDiagnoseEntry.getKey(), new StartPage.DissectionDiagnoseValue(value.isSpace(), value.getName().getTranslated()));
+            dissectionDiagnoseLatin.put(dissectionDiagnoseEntry.getKey(), new StartPage.DissectionDiagnoseValue(
+                    value.isSpaceAbove(),
+                    value.isSpaceBelow(),
+                    value.getName().getTranslated()));
         }
         return dissectionDiagnoseLatin;
     }

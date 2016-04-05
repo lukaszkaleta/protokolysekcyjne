@@ -1,7 +1,6 @@
 package com.ra.dissection.protocol.domain.protocol;
 
 import com.ra.dissection.protocol.domain.settings.DissectionDiagnoseName;
-import com.ra.dissection.protocol.domain.settings.DissectionDiagnoseSource;
 
 import java.io.Serializable;
 
@@ -33,8 +32,11 @@ public class DissectionDiagnose implements Serializable {
 
     private int sortIndex;
 
-    /** Each dissection diagnose can have space assigned. If space is present after dissection diagnose on the report we will have space. */
-    private boolean space;
+    /** Each dissection diagnose can have space assigned before. If space is present after dissection diagnose on the report we will have space. */
+    private boolean spaceAbove;
+
+    /** Each dissection diagnose can have space assigned below. If space is present after dissection diagnose on the report we will have space. */
+    private boolean spaceBelow;
 
     public long getId() {
         return id;
@@ -84,12 +86,20 @@ public class DissectionDiagnose implements Serializable {
         this.sortIndex = sortIndex;
     }
 
-    public boolean isSpace() {
-        return space;
+    public boolean isSpaceAbove() {
+        return spaceAbove;
     }
 
-    public void setSpace(boolean space) {
-        this.space = space;
+    public void setSpaceAbove(boolean spaceAbove) {
+        this.spaceAbove = spaceAbove;
+    }
+
+    public boolean isSpaceBelow() {
+        return spaceBelow;
+    }
+
+    public void setSpaceBelow(boolean space) {
+        this.spaceBelow = space;
     }
 
     @Override

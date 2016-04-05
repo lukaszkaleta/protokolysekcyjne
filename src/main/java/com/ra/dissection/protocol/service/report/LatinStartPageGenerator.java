@@ -2,13 +2,9 @@ package com.ra.dissection.protocol.service.report;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.pdf.PdfWriter;
 import com.ra.dissection.protocol.domain.protocol.DissectionDiagnose;
 import com.ra.dissection.protocol.domain.protocol.DissectionDiagnoseOption;
 import com.ra.dissection.protocol.domain.report.DissectionProtocolReport;
-import com.ra.dissection.protocol.domain.settings.DissectionDiagnoseName;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -31,7 +27,7 @@ public class LatinStartPageGenerator extends StartPage implements ReportPageGene
         Map<Long, StartPage.DissectionDiagnoseValue> dissectionDiagnoseLatin = new LinkedHashMap<Long, DissectionDiagnoseValue>();
         for (Map.Entry<Long, DissectionDiagnose> dissectionDiagnoseEntry : dissectionDiagnoses.entrySet()) {
             DissectionDiagnose value = dissectionDiagnoseEntry.getValue();
-            dissectionDiagnoseLatin.put(dissectionDiagnoseEntry.getKey(), new StartPage.DissectionDiagnoseValue(value.isSpace(), value.getName().getLatin()));
+            dissectionDiagnoseLatin.put(dissectionDiagnoseEntry.getKey(), new StartPage.DissectionDiagnoseValue(value.isSpaceAbove(), value.isSpaceBelow(), value.getName().getLatin()));
         }
         return dissectionDiagnoseLatin;
     }
