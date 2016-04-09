@@ -134,9 +134,11 @@ public class DissectionProtocolServiceImpl implements DissectionProtocolService 
     public DissectionProtocol loadDescription(long dissectionProtocolId) {
         validateExistence(dissectionProtocolId);
         List<DescriptionPoint> descriptionPoints = descriptionPointMapper.selectDissectionProtocolDescriptionPoints(dissectionProtocolId);
+        List<DissectionDiagnose> dissectionDiagnoses = dissectionDiagnoseMapper.selectDissectionDiagnoseForDissectionProtocol(dissectionProtocolId);
         DissectionProtocol dissectionProtocol = new DissectionProtocol();
         dissectionProtocol.setId(dissectionProtocolId);
         dissectionProtocol.setDescriptionPointList(descriptionPoints);
+        dissectionProtocol.setDissectionDiagnoseList(dissectionDiagnoses);
         return dissectionProtocol;
     }
 

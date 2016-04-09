@@ -8,17 +8,19 @@
 <c:set var="protocolActive" value="${dissectionProtocol != null && dissectionProtocol.id > 0}"/>
 <c:set var="protocolIdActive" value="${dissectionProtocolId > 0}"/>
 
-<c:choose>
-    <c:when test="${protocolActive || protocolIdActive}">
-      <jsp:doBody/>
-    </c:when>
-    <c:otherwise>
-      <div class="alert alert-block">
-        <s:message code="${updateDeniedMessageCode}"/>
-        <br/>
-        <a href='<c:url value="/protocol/basic/start" />'>
-          <s:message code="dissection.protocol.create.howto"/>
-        </a>
-      </div>
-    </c:otherwise>
-</c:choose>
+<div style="margin-top: 1em">
+    <c:choose>
+        <c:when test="${protocolActive || protocolIdActive}">
+            <jsp:doBody/>
+        </c:when>
+        <c:otherwise>
+            <div class="alert alert-block">
+                <s:message code="${updateDeniedMessageCode}"/>
+                <br/>
+                <a href='<c:url value="/protocol/basic/start" />'>
+                    <s:message code="dissection.protocol.create.howto"/>
+                </a>
+            </div>
+        </c:otherwise>
+    </c:choose>
+</div>

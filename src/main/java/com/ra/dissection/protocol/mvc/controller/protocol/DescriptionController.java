@@ -19,10 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Opis
@@ -129,7 +126,16 @@ public class DescriptionController {
         modelAndView.addObject("descriptionPointMap", descriptionPointMap);
         modelAndView.addObject("dissectionProtocolProgress", dissectionProtocolService.getProgress(dissectionProtocol.getId()));
         modelAndView.addObject("dissectionProtocolId", dissectionProtocol.getId());
+
+        List<DissectionDiagnose> dissectionDiagnoseList = dissectionProtocol.getDissectionDiagnoseList();
+        Map<Long, Boolean> descriptionPointIds = new HashMap<>();
+        for(DissectionDiagnose dissectionDiagnose : dissectionDiagnoseList) {
+            descriptionPointIds.put(dissectionDiagnose.getDescriptionPointId(), true);
+        }
+        modelAndView.addObject("changedDescriptionPointIds", descriptionPointIds);
+
         return modelAndView;
+
     }
 
     private ModelAndView pointModelAndView(DescriptionPoint descriptionPoint) {

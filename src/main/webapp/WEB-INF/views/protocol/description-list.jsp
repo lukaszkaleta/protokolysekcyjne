@@ -1,7 +1,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="dp" tagdir="/WEB-INF/tags/protocol/" %>
-<%@ taglib prefix="common" tagdir="/WEB-INF/tags/common/" %>
+<%@ taglib prefix="dp" tagdir="/WEB-INF/tags/protocol" %>
+<%@ taglib prefix="common" tagdir="/WEB-INF/tags/common" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@page pageEncoding="UTF-8" %>
 

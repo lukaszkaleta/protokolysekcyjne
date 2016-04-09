@@ -5,3 +5,11 @@
 .ui-state-hover {
     color: #0044cc;
 }
+
+.descriptionPointTextArea {
+    width: 98%;
+    box-sizing: border-box;
+    max-height: 94px; /* optional, but recommended */
+    min-height: 31px;
+    overflow-x: hidden; /* for Firefox (issue #5) */
+}

@@ -26,7 +26,7 @@
   <script src='<c:url value="/resources/js/pdfobject.js" />'></script>
   <script src='<c:url value="/resources/js/jquery-2.1.4.min.js" />'></script>
   <script src='<c:url value="/resources/js/jquery-ui.min.js" />'></script>
-  <script src='<c:url value="/resources/js/jquery-elastic-1.6.10/jquery.elastic.source.js" />'></script>
+  <script src='<c:url value="/resources/js/jquery-textarea-autosize/textarea-autosize.js" />'></script>
   <script src='<c:url value="/resources/js/bootstrap-transition.js" />'></script>
   <script src='<c:url value="/resources/js/bootstrap-alert.js" />'></script>
   <script src='<c:url value="/resources/js/bootstrap-modal.js" />'></script>
@@ -41,7 +41,6 @@
   <script src='<c:url value="/resources/js/bootstrap-affix.js" />'></script>
   <script src='<c:url value="/resources/js/holder/holder.js" />'></script>
   <script src='<c:url value="/resources/js/google-code-prettify/prettify.js" />'></script>
-  <script src='<c:url value="/resources/js/application.js" />'></script>
   <script src='<c:url value="/resources/js/bootstrap-datepicker.js" />'></script>
   <script src='<c:url value="/resources/js/bootstrap-typeahead.js" />'></script>
   <script src='<c:url value="/resources/js/bootstrap-wysihtml5.js" />'></script>

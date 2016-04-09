@@ -105,6 +105,7 @@ public interface DissectionProtocolService {
      */
 
     DissectionDiagnose loadClinicalDiagnoseForDescriptionPoint(long dissectionProtocolId, long descriptionPointId);
+
     /**
      * Deletes description point from protocol.
      *

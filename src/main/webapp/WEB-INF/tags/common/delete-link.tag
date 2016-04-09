@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="common" tagdir="/WEB-INF/tags/common/" %>
+<%@ taglib prefix="common" tagdir="/WEB-INF/tags/common" %>
 
 <%@ attribute name="url" required="true" rtexprvalue="true" type="java.lang.String" description="Delete url" %>
 <%@ attribute name="id" required="false" rtexprvalue="true" type="java.lang.String" description="Id of delete" %>
@@ -13,7 +13,7 @@
   <c:set var="cssClass" value="btn btn-inverse pull-right" />
 </c:if>
 <c:if test="${id == null}">
-  <c:set var="id" value="deleteModel"/>
+  <c:set var="id" value="X"/>
 </c:if>
 <c:if test="${labelCode == null}">
   <s:message code="button.delete" var="labelCode"/>
@@ -22,11 +22,11 @@
   <s:message code="common.modal.dialog.delete.header" var="headerCode"/>
 </c:if>
 
-<a href="#${id}" role="button" class="${cssClass}" data-toggle="modal">
+<a href class="${cssClass}" data-toggle="modal" data-target="#deleteModal${id}">
   <s:message code="${labelCode}"/>
 </a>
 
-<div id="${id}" class="modal hide fade">
+<div id="deleteModal${id}" class="modal hide fade">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3>

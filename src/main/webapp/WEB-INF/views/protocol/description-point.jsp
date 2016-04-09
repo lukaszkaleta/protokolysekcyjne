@@ -1,8 +1,10 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="settings" tagdir="/WEB-INF/tags/settings/" %>
-<%@ taglib prefix="common" tagdir="/WEB-INF/tags/common/" %>
+<%@ taglib prefix="settings" tagdir="/WEB-INF/tags/settings" %>
+<%@ taglib prefix="common" tagdir="/WEB-INF/tags/common" %>
+<%@ taglib prefix="dp" tagdir="/WEB-INF/tags/protocol" %>
+
 <%@page pageEncoding="UTF-8" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -79,25 +81,9 @@
     <button type="submit" class="btn btn-primary">
       <s:message code="button.save"/>
     </button>
-
-    <c:choose>
-    <c:when test="${pointDissectionDiagnose == null}">
-      <common:delete-link url="/protocol/description/point/delete/${descriptionPoint.dissectionProtocolId}/${descriptionPoint.id}"
-                          headerCode="description.point.delete.from.protocol">
-        <div class="alert">
-          <s:message code="description.point.delete.from.protocol.confirm" arguments="${descriptionPoint.descriptionPointSource.digitPosition},${descriptionPoint.descriptionPointSource.point}"/>
-        </div>
-        <p>
-            ${descriptionPoint.descriptionPointSource.description}
-        </p>
-      </common:delete-link>
-    </c:when>
-    <c:otherwise>
-      <div class="pull-right">
-        <s:message code="description.point.delete.from.protocol.condition"/>
-      </div>
-    </c:otherwise>
-    </c:choose>
+    <span class="pull-right">
+      <dp:delete-description-point-link allowed="${pointDissectionDiagnose == null}" descriptionPoint="${descriptionPoint}"/>
+    </span>
   </div>
 
 </form:form>
