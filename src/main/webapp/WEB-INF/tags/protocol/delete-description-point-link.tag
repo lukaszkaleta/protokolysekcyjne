@@ -9,6 +9,7 @@
     <c:when test="${allowed}">
         <common:delete-link url="/protocol/description/point/delete/${descriptionPoint.dissectionProtocolId}/${descriptionPoint.id}" cssClass="info"
                             headerCode="description.point.delete.from.protocol" id="${descriptionPoint.id}">
+
             <div class="row-fluid">
                 <div class="span12">
                     <span class="alert">
@@ -21,6 +22,7 @@
                     </h5>
                 </div>
             </div>
+
         </common:delete-link>
     </c:when>
     <c:otherwise>

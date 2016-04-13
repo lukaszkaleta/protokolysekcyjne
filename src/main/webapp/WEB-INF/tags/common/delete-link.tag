@@ -33,7 +33,7 @@
       <s:message code="${headerCode}"/>
     </h3>
   </div>
-  <div class="modal-body">
+  <div class="modal-body" >
     <jsp:doBody/>
   </div>
   <div class="modal-footer">

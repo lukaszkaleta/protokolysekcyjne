@@ -40,6 +40,7 @@
   <script src='<c:url value="/resources/js/bootstrap-carousel.js" />'></script>
   <script src='<c:url value="/resources/js/bootstrap-affix.js" />'></script>
   <script src='<c:url value="/resources/js/holder/holder.js" />'></script>
+  <script src='<c:url value="/resources/js/application.js" />'></script>
   <script src='<c:url value="/resources/js/google-code-prettify/prettify.js" />'></script>
   <script src='<c:url value="/resources/js/bootstrap-datepicker.js" />'></script>
   <script src='<c:url value="/resources/js/bootstrap-typeahead.js" />'></script>

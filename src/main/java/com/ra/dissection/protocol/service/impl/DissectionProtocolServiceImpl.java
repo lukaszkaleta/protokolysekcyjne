@@ -272,17 +272,23 @@ public class DissectionProtocolServiceImpl implements DissectionProtocolService 
 
     @Transactional
     @Override
-    public void reorderDissectionDiagnose(long protocolId, List<String> ordered) {
+    public void reorderDissectionDiagnose(long protocolId, List<String> tableRowsInOrder) {
+        List<String> idsOrdered = new ArrayList<>();
+        for(String inOrder : tableRowsInOrder) {
+            if (inOrder != null && !inOrder.trim().isEmpty()) {
+                idsOrdered.add(inOrder);
+            }
+        }
         List<DissectionDiagnose> dissectionDiagnoses = dissectionDiagnoseMapper.selectDissectionDiagnoseForDissectionProtocol(protocolId);
-        if (dissectionDiagnoses.size() == ordered.size()) {
+        if (dissectionDiagnoses.size() == idsOrdered.size()) {
             Map<Long, DissectionDiagnose> dissectionDiagnosesMap = Maps.uniqueIndex(dissectionDiagnoses, new com.google.common.base.Function<DissectionDiagnose, Long>() {
                 @Override
                 public Long apply(DissectionDiagnose dissectionDiagnose) {
                     return dissectionDiagnose.getId();
                 }
             });
-            for(int sortIndex = 0; sortIndex < ordered.size(); sortIndex++) {
-                String dissectionDiagnoseId = ordered.get(sortIndex);
+            for(int sortIndex = 0; sortIndex < idsOrdered.size(); sortIndex++) {
+                String dissectionDiagnoseId = idsOrdered.get(sortIndex);
                 DissectionDiagnose dissectionDiagnose = dissectionDiagnosesMap.get(Long.parseLong(dissectionDiagnoseId));
                 if (dissectionDiagnose != null) {
                     dissectionDiagnose.setSortIndex(sortIndex);

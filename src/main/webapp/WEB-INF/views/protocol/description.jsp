@@ -37,27 +37,27 @@
           </span>
           <span class="span1">
             <div class="badge" data-toggle="tooltip" data-placement="left" title='<s:message code="protocol.description.point.type.${descriptionPoint.descriptionPointSource.type}${descriptionPoint.customization ? '.customized' : ''}"/>'>
-              <s:message code="protocol.description.point.type.key.${descriptionPoint.descriptionPointSource.type}${descriptionPoint.customization ? '.customized' : ''}"/>
+              <s:message code="protocol.description.point.type.key.${descriptionPoint.descriptionPointSource.type}${descriptionPoint.customization ? '.customized' : ''}"></s:message>
             </div>
           </span>
           <span class="span1">
             <a class="info" href='<c:url value="/protocol/description/point/${descriptionPoint.id}"/>'>
-              <s:message code="button.edit"/>
+              <s:message code="button.edit"></s:message>
             </a>
           </span>
           <span class="span9">
             <span class="pull-right">
-              <dp:delete-description-point-link allowed="${changedDescriptionPointIds[descriptionPoint.id] == null}" descriptionPoint="${descriptionPoint}"/>
+              <dp:delete-description-point-link allowed="${changedDescriptionPointIds[descriptionPoint.id] == null}" descriptionPoint="${descriptionPoint}"></dp:delete-description-point-link>
             </span>
           </span>
         </div>
         <div class="row-fluid">
           <div class="span12">
-            <form:hidden path="descriptionPoints[${status.index}].id"/>
-            <form:hidden path="descriptionPoints[${status.index}].dissectionProtocolId"/>
-            <form:hidden path="descriptionPoints[${status.index}].index"/>
-            <form:hidden path="descriptionPoints[${status.index}].customization"/>
-            <form:hidden path="descriptionPoints[${status.index}].descriptionPointSource.id"/>
+            <form:hidden path="descriptionPoints[${status.index}].id"></form:hidden>
+            <form:hidden path="descriptionPoints[${status.index}].dissectionProtocolId"></form:hidden>
+            <form:hidden path="descriptionPoints[${status.index}].index"></form:hidden>
+            <form:hidden path="descriptionPoints[${status.index}].customization"></form:hidden>
+            <form:hidden path="descriptionPoints[${status.index}].descriptionPointSource.id"></form:hidden>
             <form:hidden path="descriptionPoints[${status.index}].descriptionPointSource.type"/>
             <form:hidden path="descriptionPoints[${status.index}].descriptionPointSource.point"/>
             <form:hidden path="descriptionPoints[${status.index}].descriptionPointSource.position"/>
@@ -70,23 +70,23 @@
       </div>
 
     </c:forEach>
-    <input value='<s:message code="button.save"/>' type="submit" class="btn btn-primary" style="position: fixed; bottom: 3em; right: 3em">
 
   </form:form>
 
-  <script type="application/javascript">
-    $( document ).ready(function() {
-
-      $('.descriptionPointTextArea').textareaAutoSize();
-    });
-
-    $('.descripiton-point').hover(function() {
-      $(this).css('background', '#ECECEC');
-    },function(element){
-      $(this).css('background', 'white');
-    });
-  </script>
-
 </dp:update>
 </body>
+
+<script type="application/javascript">
+  $( document ).ready(function() {
+    $('.descriptionPointTextArea').textareaAutoSize();
+  });
+
+  $('.descripiton-point').hover(function() {
+    $(this).css('background', '#ECECEC');
+  },function(element){
+    $(this).css('background', 'white');
+  });
+</script>
+
+
 </html>
