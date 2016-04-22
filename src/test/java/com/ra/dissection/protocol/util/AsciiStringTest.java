@@ -1,5 +1,7 @@
 package com.ra.dissection.protocol.util;
 
+import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**
@@ -7,4 +9,9 @@ import static org.junit.Assert.*;
  */
 public class AsciiStringTest {
 
+    @Test
+    public void testName() throws Exception {
+        String value = "WładysławGałązka";
+        assertEquals("WladyslawGalazka", new AsciiString(value).get());
+    }
 }

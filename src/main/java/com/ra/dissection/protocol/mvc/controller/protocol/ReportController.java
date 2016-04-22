@@ -39,13 +39,7 @@ public class ReportController {
         ModelAndView modelAndView = new ModelAndView("protocol/print-preview");
         modelAndView.addObject("dissectionProtocolId", dissectionProtocolId);
         modelAndView.addObject("dissectionProtocolProgress", dissectionProtocolService.getProgress(dissectionProtocolId));
-        String reportName;
-        try {
-            String niceName = reportService.getReportName(dissectionProtocolId);
-            reportName = URLEncoder.encode(niceName, "ISO-8859-2");
-        } catch (UnsupportedEncodingException e) {
-            reportName = "unknonw";
-        }
+        String reportName = reportService.getReportName(dissectionProtocolId);
         modelAndView.addObject("dissectionProtocolName", reportName);
         return modelAndView;
     }

@@ -3,6 +3,7 @@ package com.ra.dissection.protocol.service.impl;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import com.ra.dissection.protocol.util.AsciiString;
 import com.ra.dissection.protocol.dao.protocol.DissectionProtocolMapper;
 import com.ra.dissection.protocol.dao.protocol.HospitalWardEntryMapper;
 import com.ra.dissection.protocol.dao.protocol.ReportMapper;
@@ -326,13 +327,9 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public String getReportName(long dissectionProtocolId) {
         DissectionProtocol dissectionProtocol = dissectionProtocolMapper.selectBasicData(dissectionProtocolId);
-        String number = dissectionProtocol.getNumber();
-        if (number != null && number.trim().length() > 0) {
-            return number;
-        }
         // Take patient
         Patient patient = dissectionProtocol.getBasicData().getPatient();
-        return patient.getCamelCaseName();
+        return new AsciiString(patient.getCamelCaseName()).get();
     }
 
     private void generateFirstPage(ReportInfo reportInfo, DissectionProtocolReport dissectionProtocol) {
