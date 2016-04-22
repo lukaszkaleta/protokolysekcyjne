@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author lukaszkaleta
@@ -41,7 +42,7 @@ public class ReportController {
         String reportName;
         try {
             String niceName = reportService.getReportName(dissectionProtocolId);
-            reportName = URLEncoder.encode(niceName, "UTF-8");
+            reportName = URLEncoder.encode(niceName, "ISO-8859-2");
         } catch (UnsupportedEncodingException e) {
             reportName = "unknonw";
         }

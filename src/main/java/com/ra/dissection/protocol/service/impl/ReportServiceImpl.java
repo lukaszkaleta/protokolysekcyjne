@@ -326,6 +326,11 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public String getReportName(long dissectionProtocolId) {
         DissectionProtocol dissectionProtocol = dissectionProtocolMapper.selectBasicData(dissectionProtocolId);
+        String number = dissectionProtocol.getNumber();
+        if (number != null && number.trim().length() > 0) {
+            return number;
+        }
+        // Take patient
         Patient patient = dissectionProtocol.getBasicData().getPatient();
         return patient.getCamelCaseName();
     }
