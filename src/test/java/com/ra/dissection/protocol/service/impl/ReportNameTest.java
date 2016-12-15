@@ -25,4 +25,19 @@ public class ReportNameTest {
         String generate = new ReportName(patient).generate();
         assertEquals("Slazak", generate);
     }
+
+    @Test
+    public void lukaszkaleta() throws Exception {
+        Patient patient = new Patient();
+        patient.setFirstName("Łukasz");
+        patient.setLastName("Kaleta");
+        String generate = new ReportName(patient).generate();
+        assertEquals("LukaszKaleta", generate);
+    }
+
+    @Test
+    public void onlyId() throws Exception {
+        Patient patient = new Patient();
+        assertEquals("patientunknown", new ReportName(patient).generate());
+    }
 }

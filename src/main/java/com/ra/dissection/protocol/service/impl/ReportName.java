@@ -21,29 +21,46 @@ public class ReportName {
     }
 
     public String generate() {
+        String reportName;
+
         String firstName = patient.getFirstName();
         String lastName = patient.getLastName();
         String description = patient.getDescription();
 
         try {
-            String[] firstNamePart = firstName != null && firstName.contains(SPACE) ? firstName.split(SPACE) : new String[] {""};
-            String[] lastNamePart = lastName != null && lastName.contains(SPACE) ? lastName.split(SPACE) : new String[] {""};
-            String[] descriptionPart = description != null && description.contains(SPACE) ? description.split(SPACE) : new String[] {""};
+            String firstNameValue = extract(firstName);
+            String lastNameValue = extract(lastName);
+            String descriptionValue = extract(description);
 
-            String part1 = firstNamePart[0];
-            String part2 = lastNamePart[0];
-            String part3 = descriptionPart[0];
-
-            String reportName = new AsciiString(part1 + part2 + part3).get();
+            reportName = new AsciiString(firstNameValue + lastNameValue + descriptionValue).get();
 
             if (reportName == null || reportName.trim().isEmpty()) {
                 reportName = patient.getIdentificationNumber();
             }
 
-            return reportName;
         } catch (Exception e) {
             log.error("REPORT NAME: [" + firstName + "][" + lastName + "] " + e.getMessage(), e);
-            return patient.getIdentificationNumber();
+            reportName = patient.getIdentificationNumber();
         }
+
+
+        if (reportName == null || reportName.trim().isEmpty()) {
+            reportName = "patientunknown";
+        }
+
+        return reportName;
+    }
+
+    private String extract(String value) {
+        if (value == null) {
+            return "";
+        }
+        if (value.trim().isEmpty()) {
+            return "";
+        }
+        if (!value.contains(SPACE)) {
+            return value;
+        }
+        return value.split(SPACE)[0];
     }
 }
