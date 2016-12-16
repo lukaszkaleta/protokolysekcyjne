@@ -117,25 +117,25 @@
   <script language="JavaScript">
     var latinArray = [
         <c:forEach items="${dissectionDiagnoseSources}" var="dds">
-        '${dds.name.latin}',
-    </c:forEach>
+            "${dds.name.latin}",
+        </c:forEach>
     ];
     var translatedArray = [
         <c:forEach items="${dissectionDiagnoseSources}" var="dds">
-        '${dds.name.translated}',
-    </c:forEach>
+            "${dds.name.translated}",
+        </c:forEach>
     ];
-    var editTitle = '${editTitle}';
-    var createTitle = '${createTitle}';
+    var editTitle = "${editTitle}";
+    var createTitle = "${createTitle}";
     var latinMap = {};
     var translatedMap = {};
     var idMap = {};
     var descriptionPointSourceIdMap = {};
     <c:forEach items="${dissectionDiagnoseSources}" var="dds">
-      latinMap['${dds.name.latin}'] = '${dds.name.translated}';
-      translatedMap['${dds.name.translated}'] = '${dds.name.latin}';
-      idMap['${dds.name.latin}'] = '${dds.id}';
-      descriptionPointSourceIdMap['${dds.name.latin}'] = '${dds.descriptionPointSourceId}';
+      latinMap["${dds.name.latin}"] = "${dds.name.translated}";
+      translatedMap["${dds.name.translated}"] = "${dds.name.latin}";
+      idMap["${dds.name.latin}"] = "${dds.id}";
+      descriptionPointSourceIdMap["${dds.name.latin}"] = "${dds.descriptionPointSourceId}";
     </c:forEach>
 
     $('#latinInput').typeahead({
